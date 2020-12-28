@@ -42,7 +42,7 @@ export function MainNavigation() {
                                     break;
                                 }
 
-                            case 'Profile':
+                            case 'Profil':
                                 {
                                     iconName = focused
                                         ? 'person-circle-sharp'
@@ -63,7 +63,7 @@ export function MainNavigation() {
                 <Tab.Screen name="Newsfeed" component={NewsFeedOverviewScreen} />
                 <Tab.Screen name="Events" component={EventOverviewScreen} />
                 <Tab.Screen name="Chat" component={ChatOverviewScreen} />
-                <Tab.Screen name="Profile" component={ProfileScreen} />
+                <Tab.Screen name="Profil" component={ProfileScreen} />
             </Tab.Navigator>
         </NavigationContainer>
     );
