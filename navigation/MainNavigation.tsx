@@ -11,6 +11,7 @@ const Tab = createBottomTabNavigator();
 
 export function MainNavigation() {
     return (
+
         <NavigationContainer>
             <Tab.Navigator
                 screenOptions={({ route }) => ({
