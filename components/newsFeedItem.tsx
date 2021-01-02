@@ -1,15 +1,15 @@
 import React from 'react';
-import { StyleSheet, Text, View, ImageBackground } from 'react-native';
+import { StyleSheet, Text, View, ImageBackground, TouchableOpacity } from 'react-native';
 
-const NewsFeedItem = (props) => {
+const NewsFeedItem = ({ title, textSnippet, imgURI, onPress }) => {
     return (
-        <View style={styles.newsFeedItem}>
-
-            <ImageBackground source={{ uri: props.imgURI }} style={styles.img}></ImageBackground>
-            <Text style={styles.headline}>{ props.title }</Text>
-            <Text numberOfLines={3} style={styles.textSnippet}>{ props.textSnippet }</Text>
-            
-        </View>
+        <TouchableOpacity onPress={onPress}>
+            <View style={styles.newsFeedItem}>
+                <ImageBackground source={{ uri: imgURI }} style={styles.img}></ImageBackground>
+                <Text style={styles.headline}>{title}</Text>
+                <Text numberOfLines={3} style={styles.textSnippet}>{textSnippet}</Text>
+            </View>
+        </TouchableOpacity>
     );
 }
 
