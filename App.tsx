@@ -1,9 +1,8 @@
-import * as React from 'react';
-import { Text, View } from 'react-native';
-import { MainNavigation } from './navigation/MainNavigation';
+import React from 'react';
+import Navigator from './routes/rootTabNavigator'
 
 export default function App() {
   return (
-    <MainNavigation />
+    <Navigator />
   );
 }

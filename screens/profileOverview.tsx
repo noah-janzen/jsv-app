@@ -1,10 +1,10 @@
-import * as React from 'react';
+import React from 'react';
 import { Text, View } from 'react-native';
 
-export function EventOverviewScreen() {
+export function ProfileOverview() {
     return (
         <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-            <Text>Events!</Text>
+            <Text>Profil!</Text>
         </View>
     );
 }

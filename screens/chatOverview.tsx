@@ -1,10 +1,10 @@
-import * as React from 'react';
+import React from 'react';
 import { Text, View } from 'react-native';
 
-export function NewsFeedOverviewScreen() {
+export function ChatOverview() {
     return (
         <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-            <Text>News feed!</Text>
+            <Text>Chat!</Text>
         </View>
     );
 }
