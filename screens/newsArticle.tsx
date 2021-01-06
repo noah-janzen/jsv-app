@@ -4,8 +4,6 @@ import { StyleSheet, View, Text, SafeAreaView, ImageBackground, ScrollView } fro
 export function NewsArticle({ navigation }) {
     let id = navigation.getParam('id');
     let requestUrl = 'https://ab40b3b6-aeb8-4688-b5f5-64837ac37966.mock.pstmn.io/news-article?id=' + id;
-    //console.log(id);
-    //console.log(requestUrl);
 
     const [isLoading, setLoading] = useState(true);
     const [newsArticle, setNewsArticle] = useState([]);
@@ -18,7 +16,7 @@ export function NewsArticle({ navigation }) {
             .finally(() => setLoading(false));
     }, []);
 
-    console.log(newsArticle); 
+    console.log(newsArticle);
 
     return (
         <SafeAreaView>

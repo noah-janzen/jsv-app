@@ -1,10 +1,11 @@
 import React from 'react';
 import { StyleSheet, Text, View, ImageBackground, TouchableOpacity } from 'react-native';
+import globalStyles from '../styles/globalStyles';
 
 const NewsFeedItem = ({ title, textSnippet, imgURI, onPress }) => {
     return (
         <TouchableOpacity onPress={onPress}>
-            <View style={styles.newsFeedItem}>
+            <View style={globalStyles.item}>
                 <ImageBackground source={{ uri: imgURI }} style={styles.img}></ImageBackground>
                 <Text style={styles.headline}>{title}</Text>
                 <Text numberOfLines={3} style={styles.textSnippet}>{textSnippet}</Text>
@@ -16,17 +17,6 @@ const NewsFeedItem = ({ title, textSnippet, imgURI, onPress }) => {
 const padding = 16;
 
 const styles = StyleSheet.create({
-    newsFeedItem: {
-        borderRadius: 10,
-        padding: padding,
-        backgroundColor: "#fff",
-        marginBottom: 20,
-        overflow: 'hidden',
-        shadowColor: "#000",
-        shadowOpacity: 0.01,
-        shadowRadius: 4,
-        elevation: 5,
-    },
     headline: {
         fontSize: 18,
         color: "#1D2026",

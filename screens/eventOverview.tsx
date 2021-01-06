@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, ActivityIndicator, SafeAreaView, SectionList } from 'react-native';
 import EventItem from '../components/eventItem';
+import SectionListHeader from '../components/sectionListHeader';
+import colors from '../styles/colors';
 
 export function EventOverview({ navigation }) {
     const [isLoading, setLoading] = useState(false);
@@ -73,11 +75,7 @@ export function EventOverview({ navigation }) {
                                 imgURI={item.imgURI}
                                 isInternalEvent={item.isInternalEvent}
                                 description={item.description} />}
-                        renderSectionHeader={({ section: { title } }) =>
-                            (<View style={styles.sectionHeader}>
-                                <Text style={styles.sectionHeaderText}>{title}</Text>
-                            </View>
-                            )
+                        renderSectionHeader={({ section: { title } }) => (<SectionListHeader text={title} />)
                         }
                     />)}
             </View>
@@ -88,15 +86,6 @@ export function EventOverview({ navigation }) {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: "#d5d5d5"
-    },
-    sectionHeader: {
-        backgroundColor: '#d5d5d5',
-        padding: 20
-    },
-    sectionHeaderText: {
-        fontSize: 25,
-        fontWeight: 'bold',
-        color: 'black'
+        backgroundColor: colors.jsvScreenBackground
     }
 });

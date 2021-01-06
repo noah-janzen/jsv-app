@@ -1,11 +1,12 @@
 import React from 'react';
 import { StyleSheet, Text, View, ImageBackground, TouchableOpacity } from 'react-native';
 import ParticipationInformation from './participationInformation';
+import globalStyles from '../styles/globalStyles';
 
 const EventItem = ({ title, date, month, time, location, numberAcceptances, numberRefusals, numberPossibly, imgURI, isInternalEvent, description, onPress }) => {
     return (
         <TouchableOpacity onPress={onPress}>
-            <View style={styles.eventItem}>
+            <View style={globalStyles.item}>
 
                 <View style={{ flexDirection: 'row', justifyContent: 'flex-start' }}>
 
@@ -27,20 +28,7 @@ const EventItem = ({ title, date, month, time, location, numberAcceptances, numb
     );
 }
 
-const padding = 16;
-
 const styles = StyleSheet.create({
-    eventItem: {
-        borderRadius: 10,
-        padding: padding,
-        backgroundColor: "#fff",
-        marginBottom: 20,
-        overflow: 'hidden',
-        shadowColor: "#000",
-        shadowOpacity: 0.01,
-        shadowRadius: 4,
-        elevation: 5
-    },
     date: {
         fontSize: 30,
         fontWeight: 'bold'

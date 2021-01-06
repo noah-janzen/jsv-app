@@ -13,6 +13,7 @@ export default function ParticipationInformation({ numberAcceptances, numberRefu
 }
 
 const fontSize = 18;
+const distance = 10;
 
 const styles = StyleSheet.create({
     container: {
@@ -21,19 +22,18 @@ const styles = StyleSheet.create({
     acceptance: {
         fontSize: fontSize,
         color: 'green',
-        marginRight: 10
+        marginRight: distance
     },
     refusal: {
         fontSize: fontSize,
         color: 'red',
-        marginRight: 10,
-        marginLeft: 10
+        marginRight: distance,
+        marginLeft: distance
     },
     possibly: {
         fontSize: fontSize,
-        color: '#F1CE09',
-        marginRight: 10,
-        marginLeft: 10
+        color: '#ccae02',
+        marginRight: distance,
+        marginLeft: distance
     },
 });
-

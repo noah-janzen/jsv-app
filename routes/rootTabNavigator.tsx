@@ -5,7 +5,6 @@ import ChatStack from './chatStack';
 import ProfileStack from './profileStack';
 import { createBottomTabNavigator } from 'react-navigation-tabs';
 import { Ionicons } from '@expo/vector-icons';
-import { View } from 'react-native';
 import React from 'react';
 import colors from '../styles/colors';
 
