@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, FlatList, ActivityIndicator, SafeAreaView } from 'react-native';
 import NewsFeedItem from '../components/newsFeedItem';
+import colors from '../styles/colors';
 
 export function NewsFeedOverview({ navigation }) {
     const [isLoading, setLoading] = useState(true);
@@ -34,6 +35,6 @@ export function NewsFeedOverview({ navigation }) {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: "#ccc"
+        backgroundColor: colors.jsvScreenBackground
     }
 });

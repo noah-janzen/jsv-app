@@ -1,6 +1,7 @@
 import { createStackNavigator } from 'react-navigation-stack';
 import { ProfileOverview } from '../screens/profileOverview';
 import { Imprint } from '../screens/imprint';
+import colors from '../styles/colors';
 
 const screens = {
     Profile: {
@@ -17,6 +18,12 @@ const screens = {
     }
 }
 
-const ProfileStack = createStackNavigator(screens);
+const ProfileStack = createStackNavigator(screens, {
+    defaultNavigationOptions: {
+        headerStyle: {
+            backgroundColor: colors.jsvMainGreen
+        }
+    }
+});
 
 export default ProfileStack;

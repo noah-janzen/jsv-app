@@ -1,6 +1,7 @@
 import { createStackNavigator } from 'react-navigation-stack';
 import { EventDetails } from '../screens/eventDetails';
 import { EventOverview } from '../screens/eventOverview';
+import colors from '../styles/colors';
 
 const screens = {
     Events: {
@@ -17,6 +18,12 @@ const screens = {
     }
 }
 
-const EventStack = createStackNavigator(screens);
+const EventStack = createStackNavigator(screens, {
+    defaultNavigationOptions: {
+        headerStyle: {
+            backgroundColor: colors.jsvMainGreen
+        }
+    }
+});
 
 export default EventStack;
