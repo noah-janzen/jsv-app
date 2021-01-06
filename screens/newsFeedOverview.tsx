@@ -7,7 +7,7 @@ export function NewsFeedOverview({ navigation }) {
     const [data, setData] = useState([]);
 
     useEffect(() => {
-        fetch('https://ab40b3b6-aeb8-4688-b5f5-64837ac37966.mock.pstmn.io/get30NewsArticleFeedItems')
+        fetch('https://ab40b3b6-aeb8-4688-b5f5-64837ac37966.mock.pstmn.io/news-feed')
             .then((response) => response.json())
             .then((json) => setData(json.newsItems))
             .catch((error) => console.error(error))
