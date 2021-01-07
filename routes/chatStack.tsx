@@ -22,6 +22,7 @@ const screens = {
 const ChatStack = createStackNavigator(screens, {
     defaultNavigationOptions: {
         headerTitleStyle: globalStyles.screenHeader,
+        headerTintColor: colors.jsvScreenHeaderText,
         headerStyle: {
             backgroundColor: colors.jsvMainGreen
         }

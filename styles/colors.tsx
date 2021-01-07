@@ -7,7 +7,8 @@ const colors = {
     jsvTabNavigatorBackground: '#fff',
     jsvTabNavigatorHairLine: '#535353',
     jsvTabNavigatorActiveTab: '#129467',
-    jsvTabNavigatorInactiveTab: '#777777'
+    jsvTabNavigatorInactiveTab: '#777777',
+    jsvScreenHeaderText: '#fff'
 }
 
 export default colors;
