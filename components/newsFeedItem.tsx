@@ -1,16 +1,16 @@
 import React from 'react';
-import { StyleSheet, Text, View, ImageBackground, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, ImageBackground, Pressable } from 'react-native';
 import globalStyles from '../styles/globalStyles';
 
 const NewsFeedItem = ({ title, textSnippet, imgURI, onPress }) => {
     return (
-        <TouchableOpacity onPress={onPress}>
+        <Pressable onPress={onPress}>
             <View style={globalStyles.item}>
                 <ImageBackground source={{ uri: imgURI }} style={styles.img}></ImageBackground>
                 <Text style={styles.headline}>{title}</Text>
                 <Text numberOfLines={3} style={styles.textSnippet}>{textSnippet}</Text>
             </View>
-        </TouchableOpacity>
+        </Pressable>
     );
 }
 
