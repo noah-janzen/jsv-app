@@ -14,6 +14,12 @@ const globalStyles = {
         shadowOpacity: 0.01,
         shadowRadius: 4,
         elevation: 5
+    },
+    firstItem: {
+        marginTop: 20
+    },
+    notFirstItem: {
+
     }
 }
 

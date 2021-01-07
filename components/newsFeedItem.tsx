@@ -2,10 +2,10 @@ import React from 'react';
 import { StyleSheet, Text, View, ImageBackground, Pressable } from 'react-native';
 import globalStyles from '../styles/globalStyles';
 
-const NewsFeedItem = ({ title, textSnippet, imgURI, onPress }) => {
+const NewsFeedItem = ({ title, textSnippet, imgURI, onPress, index }) => {
     return (
         <Pressable onPress={onPress}>
-            <View style={globalStyles.item}>
+            <View style={[globalStyles.item, index == 0 ? globalStyles.firstItem : globalStyles.notFirstItem]}>
                 <ImageBackground source={{ uri: imgURI }} style={styles.img}></ImageBackground>
                 <Text style={styles.headline}>{title}</Text>
                 <Text numberOfLines={3} style={styles.textSnippet}>{textSnippet}</Text>
