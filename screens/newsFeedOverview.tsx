@@ -2,13 +2,16 @@ import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, FlatList, ActivityIndicator, SafeAreaView } from 'react-native';
 import NewsFeedItem from '../components/newsFeedItem';
 import colors from '../styles/colors';
+import globalObjects from '../globalObjects/globalObjects';
 
 export function NewsFeedOverview({ navigation }) {
     const [isLoading, setLoading] = useState(true);
     const [data, setData] = useState([]);
 
+    let requestUrl = globalObjects.serverURL + '/news-feed';
+
     useEffect(() => {
-        fetch('https://ab40b3b6-aeb8-4688-b5f5-64837ac37966.mock.pstmn.io/news-feed')
+        fetch(requestUrl, globalObjects.globalHeader)
             .then((response) => response.json())
             .then((json) => setData(json.newsItems))
             .catch((error) => console.error(error))

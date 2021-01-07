@@ -1,15 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, Text, SafeAreaView, ImageBackground, ScrollView } from 'react-native';
+import globalObjects from '../globalObjects/globalObjects';
 
 export function NewsArticle({ navigation }) {
     let id = navigation.getParam('id');
-    let requestUrl = 'https://ab40b3b6-aeb8-4688-b5f5-64837ac37966.mock.pstmn.io/news-article?id=' + id;
+    let requestUrl = globalObjects.serverURL + '/news-article?id=' + id;
 
     const [isLoading, setLoading] = useState(true);
     const [newsArticle, setNewsArticle] = useState([]);
 
     useEffect(() => {
-        fetch(requestUrl)
+        fetch(requestUrl, globalObjects.globalHeader)
             .then((response) => response.json())
             .then((json) => setNewsArticle(json))
             .catch((error) => console.error(error))
