@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, FlatList, ActivityIndicator, SafeAreaView } from 'react-native';
+import { StyleSheet, Text, View, FlatList, ActivityIndicator, SafeAreaView, RefreshControl, ToastAndroid } from 'react-native';
 import NewsFeedItem from '../components/newsFeedItem';
 import colors from '../styles/colors';
 import globalObjects from '../globalObjects/globalObjects';
@@ -7,6 +7,7 @@ import globalObjects from '../globalObjects/globalObjects';
 export function NewsFeedOverview({ navigation }) {
     const [isLoading, setLoading] = useState(true);
     const [data, setData] = useState([]);
+    const [refreshing, setRefreshing] = useState(false);
 
     let requestUrl = globalObjects.serverURL + '/news-feed';
 
@@ -22,6 +23,19 @@ export function NewsFeedOverview({ navigation }) {
         navigation.navigate('NewsArticle', item);
     }
 
+    const onRefresh = React.useCallback(async () => {
+        setRefreshing(true);
+        try {
+            let response = await fetch(requestUrl);
+            let responseJson = await response.json();
+            console.log(responseJson);
+            setData(responseJson.newsItems);
+            setRefreshing(false);
+        } catch(error) {
+            console.error(error);
+        }
+    }, [refreshing]);
+
     return (
         <SafeAreaView style={{ flex: 1 }}>
             <View style={styles.container}>
@@ -29,6 +43,7 @@ export function NewsFeedOverview({ navigation }) {
                     <FlatList
                         data={data}
                         renderItem={({ item, index }) => <NewsFeedItem onPress={() => pressHandler(item)} index={index} title={item.title} textSnippet={item.textSnippet} imgURI={item.imgURI} date={item.date} />}
+                        refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
                     />)}
             </View>
         </SafeAreaView>
