@@ -1,14 +1,17 @@
 import React from 'react';
 import { StyleSheet, Text, View, ImageBackground, Pressable } from 'react-native';
 import globalStyles from '../styles/globalStyles';
+import createDateString from '../globalObjects/createDateString';
 
-const NewsFeedItem = ({ title, textSnippet, imgURI, onPress, index }) => {
+const NewsFeedItem = ({ title, textSnippet, imgURI, onPress, index, date }) => {    
+
     return (
         <Pressable onPress={onPress}>
             <View style={[globalStyles.item, index == 0 ? globalStyles.firstItem : globalStyles.notFirstItem]}>
                 <ImageBackground source={{ uri: imgURI }} style={styles.img}></ImageBackground>
                 <Text style={styles.headline}>{title}</Text>
                 <Text numberOfLines={3} style={styles.textSnippet}>{textSnippet}</Text>
+                <Text style={globalStyles.date}>{createDateString(new Date(date))}</Text>
             </View>
         </Pressable>
     );

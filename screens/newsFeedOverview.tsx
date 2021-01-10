@@ -28,7 +28,7 @@ export function NewsFeedOverview({ navigation }) {
                 {isLoading ? <ActivityIndicator /> : (
                     <FlatList
                         data={data}
-                        renderItem={({ item, index }) => <NewsFeedItem onPress={() => pressHandler(item)} index={index} title={item.title} textSnippet={item.textSnippet} imgURI={item.imgURI} />}
+                        renderItem={({ item, index }) => <NewsFeedItem onPress={() => pressHandler(item)} index={index} title={item.title} textSnippet={item.textSnippet} imgURI={item.imgURI} date={item.date} />}
                     />)}
             </View>
         </SafeAreaView>

@@ -20,6 +20,12 @@ const globalStyles = {
     },
     notFirstItem: {
 
+    },
+    date: {
+        fontSize: 12,
+        marginTop: 4,
+        marginBottom: 0,
+        color: '#898989'
     }
 }
 
