@@ -13,8 +13,8 @@ export function NewsArticle({ navigation }) {
 
     useEffect(() => {
         fetch(requestUrl, globalObjects.globalHeader)
-            .then((response) => response.json())
-            .then((json) => setNewsArticle(json))
+            .then(response => response.json())
+            .then(json => setNewsArticle(json))
             .catch((error) => console.error(error))
             .finally(() => setLoading(false));
     }, []);

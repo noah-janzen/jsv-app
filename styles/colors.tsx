@@ -8,7 +8,8 @@ const colors = {
     jsvTabNavigatorHairLine: '#535353',
     jsvTabNavigatorActiveTab: '#129467',
     jsvTabNavigatorInactiveTab: '#777777',
-    jsvScreenHeaderText: '#fff'
+    jsvScreenHeaderText: '#fff',
+    jsvChatBubbleBackground: '#fff'
 }
 
 export default colors;
