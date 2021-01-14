@@ -2,8 +2,9 @@ import React from 'react';
 import { StyleSheet, Text, View, ImageBackground, TouchableOpacity } from 'react-native';
 import ParticipationInformation from './participationInformation';
 import globalStyles from '../styles/globalStyles';
+import createDateTimeString from '../globalObjects/createDateTimeString';
 
-const EventItem = ({ title, date, month, time, location, numberAcceptances, numberRefusals, numberPossibly, imgURI, isInternalEvent, description, onPress }) => {
+const EventItem = ({ title, date, location, attendance_responses, onPress }) => {
     return (
         <TouchableOpacity onPress={onPress}>
             <View style={globalStyles.item}>
@@ -11,14 +12,14 @@ const EventItem = ({ title, date, month, time, location, numberAcceptances, numb
                 <View style={{ flexDirection: 'row', justifyContent: 'flex-start' }}>
 
                     <View style={styles.calendarDate}>
-                        <Text style={styles.month}>{month}</Text>
+                        <Text style={styles.month}>MONAT</Text>
                         <Text style={styles.date}>{date}</Text>
                     </View>
 
                     <View style={styles.eventInfo}>
                         <Text style={styles.title}>{title}</Text>
-                        <Text style={styles.timeAndLocation}>{time} · {location}</Text>
-                        <ParticipationInformation numberAcceptances={numberAcceptances} numberRefusals={numberRefusals} numberPossibly={numberPossibly} />
+                        <Text style={styles.timeAndLocation}>{createDateTimeString(new Date(date))}</Text>
+                        
                     </View>
 
                 </View>
