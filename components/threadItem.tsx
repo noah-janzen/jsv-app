@@ -9,7 +9,7 @@ export default function ThreadItem({ text, date, numberAnswers, onPress }) {
             <View style={globalStyles.item}>
                 <View style={styles.threadItemContent}>
                     <Text style={styles.threadText} numberOfLines={3}>{text}</Text>
-                    <Text style={styles.threadInfo}>{date} - {numberAnswers} Antworten</Text>
+                    <Text style={styles.threadInfo}>{date} · {numberAnswers} Antworten</Text>
                 </View>
             </View>
         </TouchableOpacity>

@@ -17,7 +17,7 @@ const EventItem = ({ title, date, month, time, location, numberAcceptances, numb
 
                     <View style={styles.eventInfo}>
                         <Text style={styles.title}>{title}</Text>
-                        <Text style={styles.timeAndLocation}>{time} - {location}</Text>
+                        <Text style={styles.timeAndLocation}>{time} · {location}</Text>
                         <ParticipationInformation numberAcceptances={numberAcceptances} numberRefusals={numberRefusals} numberPossibly={numberPossibly} />
                     </View>
 

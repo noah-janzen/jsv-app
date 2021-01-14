@@ -49,7 +49,7 @@ export function Thread({ navigation }) {
             {/* Initial message */}
             <View style={styles.message}>
                 <Text style={styles.threadText}>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. </Text>
-                <Text style={styles.threadInfo}>16.01.2020 - 10:34 Uhr</Text>
+                <Text style={styles.threadInfo}>16.01.2020 · 10:34 Uhr</Text>
             </View>
 
             {/* Chat bubbles */}

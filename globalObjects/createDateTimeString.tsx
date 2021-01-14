@@ -8,7 +8,7 @@ function createDateTimeString(date: Date) {
     let hours = date.getHours();
     let minutes = date.getMinutes();
 
-    let formatedDate = dayString + '.' + monthString + '.' + yearString + ' - ' + hours + ':' + minutes + ' Uhr';
+    let formatedDate = dayString + '.' + monthString + '.' + yearString + ' · ' + hours + ':' + minutes + ' Uhr';
 
     return formatedDate;
 }

@@ -6,7 +6,7 @@ export default function DateAndTimeText({ date, time }) {
     return (
         <View style={styles.container}>
             <Ionicons style={styles.icon} name={'ios-calendar'} size={20} />
-            <Text style={styles.text}>{date} - {time} Uhr</Text>
+            <Text style={styles.text}>{date} · {time} Uhr</Text>
         </View>
     );
 }
