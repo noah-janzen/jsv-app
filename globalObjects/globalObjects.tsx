@@ -1,7 +1,7 @@
 import React from 'react';
 
 const globalObjects = {
-    serverURL: 'https://ab40b3b6-aeb8-4688-b5f5-64837ac37966.mock.pstmn.io',
+    serverURL: 'https://www.jsv-huenxe.de/mock-server',
     globalHeader: { 
         headers: {
         Accept: 'application/json',
