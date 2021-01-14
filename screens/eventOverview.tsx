@@ -40,7 +40,7 @@ export function EventOverview({ navigation }) {
                                 attendance_responses={item.attendance_responses}
                             />
                         }
-                        renderSectionHeader={({ section: { year_month } }) => (<SectionListHeader text={year_month} />)}
+                        renderSectionHeader={({ section: { title } }) => (<SectionListHeader text={title} />)}
                     />
                 )}
             </View>
