@@ -1,15 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, Text, SafeAreaView, ImageBackground, ScrollView } from 'react-native';
+import { StyleSheet, View, Text, SafeAreaView, ImageBackground, ScrollView, RefreshControl } from 'react-native';
 import globalObjects from '../globalObjects/globalObjects';
 import globalStyles from '../styles/globalStyles';
 import createDateString from '../globalObjects/createDateString';
 
 export function NewsArticle({ navigation }) {
     let id = navigation.getParam('id');
-    let requestUrl = globalObjects.serverURL + '/news-article?id=' + id;
+    let requestUrl = globalObjects.serverURL + '/news-article/id=' + id;
 
     const [isLoading, setLoading] = useState(true);
     const [newsArticle, setNewsArticle] = useState([]);
+    const [refreshing, setRefreshing] = useState(false);
 
     useEffect(() => {
         fetch(requestUrl, globalObjects.globalHeader)
@@ -19,15 +20,23 @@ export function NewsArticle({ navigation }) {
             .finally(() => setLoading(false));
     }, []);
 
-    console.log(newsArticle);
+    // pull to refresh function
+    const onRefresh = React.useCallback(async () => {
+        setRefreshing(true);
+        fetch(requestUrl, globalObjects.globalHeader)
+            .then((response) => response.json())
+            .then((json) => setNewsArticle(json))
+            .catch((error) => console.error(error))
+            .finally(() => setRefreshing(false));
+    }, []);
 
     return (
         <SafeAreaView>
-            <ScrollView>
-                <ImageBackground source={{ uri: navigation.getParam('imgURI') }} style={styles.img}></ImageBackground>
-                <Text style={styles.headline}>{navigation.getParam('title')}</Text>
+            <ScrollView refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
+                <ImageBackground source={{ uri: newsArticle.imgURI }} style={styles.img}></ImageBackground>
+                <Text style={styles.headline}>{ newsArticle.title }</Text>
                 <Text style={styles.text}>{newsArticle.fullText}</Text>
-                <Text style={[globalStyles.date, styles.date]}>{createDateString(new Date(navigation.getParam('date')))}</Text>
+                <Text style={[globalStyles.date, styles.date]}>{createDateString(new Date(newsArticle.date))}</Text>
             </ScrollView>
         </SafeAreaView>
     )

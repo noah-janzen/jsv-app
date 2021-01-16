@@ -3,32 +3,44 @@ import { TextInput, View, StyleSheet, Pressable } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import colors from '../styles/colors';
 
-export default function ResponseInput() {
+export default function ResponseInput({handler}) {
 
     const [textInput, setTextInput] = useState('');
+    const [sendDisabled, setSendDisabled] = useState(true);
+
     const pressHandler = () => {
         if (textInput.length > 0) {
             let text = textInput;
-            console.log(text);
+            console.log('Text: ' + text);
+            handler(text);
             setTextInput('');
+            setSendDisabled(true);
         }
     };
+
+    const checkTextLength = (text) => {
+        if(text.length > 0) {
+            setSendDisabled(false);
+        }
+    }
 
     return (
         <View style={styles.responseView}>
 
             <TextInput
                 style={styles.inputText}
-                onChangeText={text => setTextInput(text)}
+                onChangeText={text => {
+                    setTextInput(text);
+                    checkTextLength(text);
+                }}
                 value={textInput}
                 placeholder='Deine Antwort…'
                 selectionColor={colors.jsvMainGreen}
                 multiline
             />
 
-            <Pressable onPress={pressHandler}>
-                <Ionicons size={15} name={'send'} color={colors.jsvMainGreen
-                } />
+            <Pressable onPress={pressHandler} style={{ marginBottom: 2}} disabled={sendDisabled}>
+                <Ionicons size={20} name={'send'} color={sendDisabled ? '#999' : colors.jsvMainGreen } />
             </Pressable>
 
         </View>
@@ -46,12 +58,12 @@ const styles = StyleSheet.create({
         paddingRight: 16,
         borderTopColor: "#ccc",
         borderTopWidth: 1,
-        alignItems: 'center',
-        flexDirection: 'row'
+        alignItems: 'flex-end',
+        flexDirection: 'row',
+        justifyContent: 'flex-end'
     },
     inputText: {
         backgroundColor: '#fff',
-        maxHeight: 100,
         borderColor: '#ccc',
         borderWidth: 1,
         borderRadius: 4,

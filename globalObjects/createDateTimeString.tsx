@@ -6,7 +6,7 @@ function createDateTimeString(date: Date) {
     let yearString = date.getFullYear();
 
     let hours = date.getHours();
-    let minutes = date.getMinutes();
+    let minutes = date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes();
 
     let formatedDate = dayString + '.' + monthString + '.' + yearString + ' · ' + hours + ':' + minutes + ' Uhr';
 

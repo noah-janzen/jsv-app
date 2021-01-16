@@ -28,7 +28,6 @@ export function NewsFeedOverview({ navigation }) {
         try {
             let response = await fetch(requestUrl);
             let responseJson = await response.json();
-            console.log(responseJson);
             setData(responseJson.newsItems);
             setRefreshing(false);
         } catch(error) {
