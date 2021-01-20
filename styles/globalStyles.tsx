@@ -3,7 +3,8 @@ import colors from './colors';
 
 const globalStyles = {
     screenHeader: {
-        fontSize: 30
+        fontSize: 30,
+        marginLeft: 4
     },
     item: {
         borderRadius: 10,

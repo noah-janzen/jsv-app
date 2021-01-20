@@ -23,6 +23,7 @@ const NewsFeedStack = createStackNavigator(screens, {
     defaultNavigationOptions: {
         headerTitleStyle: globalStyles.screenHeader,
         headerTintColor: colors.jsvScreenHeaderText,
+        headerTitleAlign: 'left',
         headerStyle: {
             backgroundColor: colors.jsvMainGreen
         }
