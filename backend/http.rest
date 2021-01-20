@@ -1,0 +1,21 @@
+GET http://localhost:3000
+
+###
+
+// News feed
+GET http://localhost:3000/news-feed
+###
+GET http://localhost:3000/news-article/id=0
+###
+
+// Events
+GET http://localhost:3000/event-overview
+###
+GET http://localhost:3000/event/id=0
+###
+
+// Chat
+GET http://localhost:3000/chat
+###
+GET http://localhost:3000/thread/id=0
+###
