@@ -16,9 +16,9 @@
                 },
                 {
                     "id": 1,
-                    "title": "SchieÃŸtraining",
+                    "title": "Schießtraining",
                     "date": "2020-02-24T18:00:00.000Z",
-                    "location": "Scheibenstand HÃ¼nxe",
+                    "location": "Scheibenstand Hünxe",
                     "attendance_responses": {
                         "yes": 5,
                         "no": 1,
@@ -28,7 +28,7 @@
             ]
         },
         {
-            "title": "MÃ¤rz",
+            "title": "März",
             "data": [
                 {
                     "id": 2,
@@ -59,7 +59,7 @@
             "data": [
                 {
                     "id": 4,
-                    "title": "SchÃ¼tzenfest des JSV HÃ¼nxe",
+                    "title": "Schützenfest des JSV Hünxe",
                     "date": "2020-05-31T12:00:00.000Z",
                     "location": "Festzelt am Dorfteich",
                     "attendance_responses": {
