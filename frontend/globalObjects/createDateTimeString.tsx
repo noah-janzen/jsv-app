@@ -1,7 +1,7 @@
 import React from 'react';
 
 function createDateTimeString(date: Date) {
-    let dayString = (date.getDate() + 1) < 10 ? '0' + (date.getDate() + 1) : (date.getDate() + 1);
+    let dayString = (date.getDate() + 1) < 10 ? '0' + date.getDate() : date.getDate();
     let monthString = (date.getMonth() + 1) < 10 ? '0' + (date.getMonth() + 1) : (date.getMonth() + 1);
     let yearString = date.getFullYear();
 

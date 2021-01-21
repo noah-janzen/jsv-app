@@ -11,6 +11,7 @@ export default function ResponseInput({handler}) {
     const pressHandler = () => {
         if (textInput.length > 0) {
             let text = textInput;
+            text = text.replace(/^\s+|\s+$/g, '');
             console.log('Text: ' + text);
             handler(text);
             setTextInput('');

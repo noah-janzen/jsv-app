@@ -40,10 +40,12 @@ const styles = StyleSheet.create({
         paddingBottom: paddingTopBottom,
         paddingLeft: 1.5*paddingLeftRight,
         paddingRight: 1.5*paddingLeftRight,
-        backgroundColor: 'rgba(255,255,255,.15)'
+        backgroundColor: 'rgba(255,255,255,.15)',
+        minWidth: 30
     },
     attendanceLabelItemText: {
         fontSize: 11,
-        color: '#fff'
+        color: '#fff',
+        textAlign: 'center'
     }
 });
