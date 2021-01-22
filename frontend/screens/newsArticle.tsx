@@ -6,7 +6,7 @@ import createDateString from '../globalObjects/createDateString';
 
 export function NewsArticle({ navigation }) {
     let id = navigation.getParam('id');
-    let requestUrl = globalObjects.serverURL + '/news-article/id=' + id;
+    let requestUrl = globalObjects.serverURL + '/news-article/' + id;
 
     const [isLoading, setLoading] = useState(true);
     const [newsArticle, setNewsArticle] = useState([]);
@@ -34,7 +34,7 @@ export function NewsArticle({ navigation }) {
         <SafeAreaView>
             <ScrollView refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
                 <ImageBackground source={{ uri: newsArticle.imgURI }} style={styles.img}></ImageBackground>
-                <Text style={styles.headline}>{ newsArticle.title }</Text>
+                <Text style={styles.headline}>{newsArticle.title}</Text>
                 <Text style={styles.text}>{newsArticle.fullText}</Text>
                 <Text style={[globalStyles.date, styles.date]}>{createDateString(new Date(newsArticle.date))}</Text>
             </ScrollView>

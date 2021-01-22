@@ -8,14 +8,14 @@ import globalStyles from '../styles/globalStyles';
 
 export function Thread({ navigation }) {
     let id = navigation.getParam('id');
-    let requestUrl = globalObjects.serverURL + '/thread/id=' + id;
+    let requestUrl = globalObjects.serverURL + '/thread/' + id;
 
     const [isLoading, setLoading] = useState(false);
-    const [thread, setThread] = useState({id: "0", text: "", date: "", number_of_answers: 0, responses: [ { id: "0", text: "", date: "" } ] });
+    const [thread, setThread] = useState({ id: "0", text: "", date: "", number_of_answers: 0, responses: [{ id: "0", text: "", date: "" }] });
     const [refreshing, setRefreshing] = useState(false);
     const [numberOfAnswers, setNumberOfAnswers] = useState(0);
 
-    
+
     useEffect(() => {
         fetch(requestUrl, globalObjects.globalHeader)
             .then(response => response.json())
@@ -47,13 +47,13 @@ export function Thread({ navigation }) {
 
         console.log(new Date().toISOString());
     }
-    
+
     return (
         <SafeAreaView style={styles.container}>
             {/* Initial message */}
             <View style={styles.message} >
-                <Text style={styles.threadText}>{ thread.text }</Text>
-                <Text style={styles.threadInfo}>{ createDateTimeString(new Date(thread.date)) }</Text>
+                <Text style={styles.threadText}>{thread.text}</Text>
+                <Text style={styles.threadInfo}>{createDateTimeString(new Date(thread.date))}</Text>
             </View>
 
             {/* Chat bubbles */}
@@ -62,8 +62,8 @@ export function Thread({ navigation }) {
                     data={thread.responses}
                     extraData={numberOfAnswers}
                     refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
-                    renderItem={({item}) => <ChatBubble text={item.text} date={item.date} />}
-                    // refreshControl
+                    renderItem={({ item }) => <ChatBubble text={item.text} date={item.date} />}
+                // refreshControl
                 />
             )}
 
