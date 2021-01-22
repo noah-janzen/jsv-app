@@ -1,8 +1,10 @@
 import React from 'react';
+import * as Device from 'expo-device';
+
+let osName = Device.osName;
 
 const globalObjects = {
-    //serverURL: 'https://www.jsv-huenxe.de/mock-server',
-    serverURL: 'http://10.0.2.2:3000',
+    serverURL: osName == 'Android' ? 'http://10.0.2.2:3000' : 'http://localhost:3000',
     globalHeader: {
         headers: {
             Accept: 'application/json',
