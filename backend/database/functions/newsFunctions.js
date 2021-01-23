@@ -4,7 +4,7 @@ import newsSchema from '../schemas/newsSchema.js'
 const News = Mongoose.model("News", newsSchema);
 
 export async function GetNewsFeed() {
-    return await News.find({}).exec()
+    return await News.find({}).sort({ date: 'desc' }).exec()
         .then(function (foundNewsArticles) {
             // Construct array of news articles.
             var newsArticles = [];
