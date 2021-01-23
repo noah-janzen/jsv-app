@@ -1,5 +1,6 @@
 import Mongoose from 'mongoose';
 import eventSchema from '../schemas/eventSchema.js';
+import { currentDateAndTime, getMidnightTimeFormat } from './shared.js';
 
 export const AttendanceResponseType = {
     YES: 1,
@@ -10,11 +11,10 @@ export const AttendanceResponseType = {
 const Event = Mongoose.model("Event", eventSchema);
 
 export async function GetEventOverview() {
-    return await Event.find({ "start_time": { "$gte": Date.now().toString() } }, "_id title location start_time number_of_yes number_of_no number_of_not_sure").exec()
+    return await Event.find({ "start_time": { "$gte": getMidnightTimeFormat(currentDateAndTime()) } }, "_id title location start_time number_of_yes number_of_no number_of_not_sure").exec()
         .then(function (foundEvents) {
-
+            // Construct array of events.
             var events = [];
-
             foundEvents.forEach(function (event) {
                 events.push({
                     id: event._id,
@@ -31,6 +31,7 @@ export async function GetEventOverview() {
 
             console.log("Successfully retrieved event overview");
 
+            // Return created events as JSON.
             return JSON.stringify({ eventListItems: events });
         })
         .catch(function (err) {

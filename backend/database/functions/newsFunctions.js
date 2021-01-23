@@ -21,7 +21,7 @@ export async function GetNewsFeed() {
             console.log("Successfully retrieved news feed");
 
             // Return news articles as JSON.
-            return JSON.stringify({ newsItems: newsArticles });
+            return JSON.stringify({ newsListItems: newsArticles });
         })
         .catch(function (err) {
             console.log("GetNewsFeed failed: " + err);

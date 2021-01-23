@@ -6,7 +6,19 @@ const Thread = Mongoose.model("Thread", threadSchema);
 export async function GetChatOverview() {
     return await Thread.find({}).exec()
         .then(function (foundThreads) {
-            // TODO: Implement!
+            // Construct array of threads.
+            var threads = [];
+            foundThreads.forEach(function (thread) {
+                threads.push({
+                    id: thread._id,
+                    text_snippet: thread.message,
+                    date: thread.date,
+                    number_of_answers: thread.responses.length
+                });
+            });
+
+            // Return threads as JSON.
+            return JSON.stringify({ threadListItems: threads });
         })
         .catch(function (err) {
             console.log("GetChatOverview failed: " + err);
@@ -26,7 +38,7 @@ export async function CreateThread(message) {
                 text: createdThread.message,
                 date: createdThread.date,
                 number_of_answers: 0,
-                responses: []
+                responses: createdThread.responses
             });
         })
         .catch(function (err) {
