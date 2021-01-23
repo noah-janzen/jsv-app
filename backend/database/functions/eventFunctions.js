@@ -10,9 +10,28 @@ export const AttendanceResponseType = {
 const Event = Mongoose.model("Event", eventSchema);
 
 export async function GetEventOverview() {
-    return await Event.find({}, "title location start-time number_of_yes number_of_no number_of_not_sure").exec()
+    return await Event.find({ "start_time": { "$gte": Date.now().toString() } }, "_id title location start_time number_of_yes number_of_no number_of_not_sure").exec()
         .then(function (foundEvents) {
-            // TODO: Implement!
+
+            var events = [];
+
+            foundEvents.forEach(function (event) {
+                events.push({
+                    id: event._id,
+                    title: event.title,
+                    date: event.start_time,
+                    location: event.location,
+                    attendance_responses: {
+                        yes: event.number_of_yes,
+                        no: event.number_of_no,
+                        not_sure: event.number_of_not_sure
+                    }
+                })
+            });
+
+            console.log("Successfully retrieved event overview");
+
+            return JSON.stringify({ eventListItems: events });
         })
         .catch(function (err) {
             console.log("GetEventOverview failed: " + err);

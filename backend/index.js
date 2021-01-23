@@ -22,6 +22,7 @@ app.get("/", (req, res) => {
 
 // News feed overview.
 app.get("/news-feed", async (req, res) => {
+    res.setHeader("Content-Type", "application/json");
     res.send(await GetNewsFeed());
 })
 
@@ -32,6 +33,7 @@ app.get("/news-article/:id", async (req, res) => {
 
 // Event overview.
 app.get("/event-overview", async (req, res) => {
+    res.setHeader("Content-Type", "application/json");
     res.send(await GetEventOverview());
 })
 
