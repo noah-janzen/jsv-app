@@ -22,37 +22,37 @@ app.get("/", (req, res) => {
 
 // News feed overview.
 app.get("/news-feed", async (req, res) => {
-    res.setHeader("Content-Type", "application/json");
+    res.type("json");
     res.send(await GetNewsFeed());
 })
 
 // News article.
 app.get("/news-article/:id", async (req, res) => {
-    res.setHeader("Content-Type", "application/json");
+    res.type("json");
     res.send(await GetNewsArticle(req.params.id.toString()));
 })
 
 // Event overview.
 app.get("/event-overview", async (req, res) => {
-    res.setHeader("Content-Type", "application/json");
+    res.type("json");
     res.send(await GetEventOverview());
 })
 
 // Event.
 app.get("/event/:id", async (req, res) => {
-    res.setHeader("Content-Type", "application/json");
+    res.type("json");
     res.send(await GetEvent(req.params.id.toString()));
 })
 
 // Chat overview.
 app.get("/chat", async (req, res) => {
-    res.setHeader("Content-Type", "application/json");
+    res.type("json");
     res.send(await GetChatOverview());
 })
 
 // Thread.
 app.get("/thread/:id", async (req, res) => {
-    res.setHeader("Content-Type", "application/json");
+    res.type("json");
     res.send(await GetThread(req.params.id.toString()));
 })
 
