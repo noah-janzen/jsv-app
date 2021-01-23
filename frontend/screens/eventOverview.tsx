@@ -13,6 +13,8 @@ export function EventOverview({ navigation }) {
 
     let requestUrl = globalObjects.serverURL + '/event-overview';
 
+    //fetchEventOverviewList();
+
     // load initially the news events from server
     useEffect(() => {
         fetch(requestUrl, globalObjects.globalHeader)
@@ -34,7 +36,7 @@ export function EventOverview({ navigation }) {
             let json = await response.json();
             setEventsByMonth(json.events_by_month);
             setRefreshing(false);
-        } catch(error) {
+        } catch (error) {
             console.error(error);
         }
     }, [refreshing]);
