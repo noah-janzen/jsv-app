@@ -28,6 +28,7 @@ app.get("/news-feed", async (req, res) => {
 
 // News article.
 app.get("/news-article/:id", async (req, res) => {
+    res.setHeader("Content-Type", "application/json");
     res.send(await GetNewsArticle(req.params.id.toString()));
 })
 
@@ -39,16 +40,19 @@ app.get("/event-overview", async (req, res) => {
 
 // Event.
 app.get("/event/:id", async (req, res) => {
+    res.setHeader("Content-Type", "application/json");
     res.send(await GetEvent(req.params.id.toString()));
 })
 
 // Chat overview.
 app.get("/chat", async (req, res) => {
+    res.setHeader("Content-Type", "application/json");
     res.send(await GetChatOverview());
 })
 
 // Thread.
 app.get("/thread/:id", async (req, res) => {
+    res.setHeader("Content-Type", "application/json");
     res.send(await GetThread(req.params.id.toString()));
 })
 
