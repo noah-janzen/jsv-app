@@ -5,7 +5,8 @@ import { currentDateAndTime, getMidnightTimeFormat } from './shared.js';
 export const AttendanceResponseType = {
     YES: 1,
     NO: 2,
-    NOT_SURE: 3
+    NOT_SURE: 3,
+    NONE: 4
 };
 
 const Event = Mongoose.model("Event", eventSchema);
@@ -126,6 +127,9 @@ function GetAttendanceResponseUpdateCriteria(newAttendance, oldAttendance) {
 
                 case AttendanceResponseType.NOT_SURE:
                     return { $inc: { number_of_not_sure: -1, number_of_yes: 1 } };
+
+                case AttendanceResponseType.NONE:
+                    return { $inc: { number_of_yes: 1 } };
             }
 
             break;
@@ -137,6 +141,9 @@ function GetAttendanceResponseUpdateCriteria(newAttendance, oldAttendance) {
 
                 case AttendanceResponseType.NOT_SURE:
                     return { $inc: { number_of_not_sure: -1, number_of_no: 1 } };
+
+                case AttendanceResponseType.NONE:
+                    return { $inc: { number_of_no: 1 } };
             }
             break;
 
@@ -147,6 +154,9 @@ function GetAttendanceResponseUpdateCriteria(newAttendance, oldAttendance) {
 
                 case AttendanceResponseType.NO:
                     return { $inc: { number_of_no: -1, number_of_not_sure: 1 } };
+
+                case AttendanceResponseType.NONE:
+                    return { $inc: { number_of_not_sure: 1 } };
             }
             break;
     }
