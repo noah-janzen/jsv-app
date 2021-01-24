@@ -105,7 +105,7 @@ export async function GetEvent(id) {
                     description: foundEvent.description,
                     imgURI: foundEvent.image_uri
                 }
-            })
+            });
         })
         .catch(function (err) {
             console.log("GetEvent failed: " + err);
@@ -113,47 +113,71 @@ export async function GetEvent(id) {
         });
 }
 
-export async function AlterAttendanceResponse(id, attendanceReponseType, shouldIncrease) {
-    return await Event.findById(id).exec()
-        .then(async function (foundEvent) {
+export function GetAttendanceResponseType(stringResponseType) {
+    return stringResponseType == "yes" ? AttendanceResponseType.YES : (stringResponseType == "no" ? AttendanceResponseType.NO : AttendanceResponseType.NOT_SURE);
+}
 
-            switch (attendanceReponseType) {
-                case AttendanceResponseType.YES:
-                    return await Event.updateOne({ _id: foundEvent._id }, { number_of_yes: shouldIncrease ? foundEvent.number_of_yes + 1 : foundEvent.number_of_yes - 1 }, {}).exec()
-                        .then(function (updatedEvent) {
-                            console.log("Number of yes of event with id " + foundEvent._id + shouldIncrease ? " increased" : " decreased" + " successfully");
-                            return updatedEvent.number_of_yes;
-                        })
-                        .catch(function (err) {
-                            console.log("AlterAttendanceResponse failed: " + err);
-                            return -1;
-                        });
-
+function GetAttendanceResponseUpdateCriteria(newAttendance, oldAttendance) {
+    switch (newAttendance) {
+        case AttendanceResponseType.YES:
+            switch (oldAttendance) {
                 case AttendanceResponseType.NO:
-                    return await Event.updateOne({ _id: foundEvent._id }, { number_of_no: shouldIncrease ? foundEvent.number_of_no + 1 : foundEvent.number_of_no - 1 }, {}).exec()
-                        .then(function (updatedEvent) {
-                            console.log("Number of no of event with id " + foundEvent._id + shouldIncrease ? " increased" : " decreased" + " successfully");
-                            return updatedEvent.number_of_no;
-                        })
-                        .catch(function (err) {
-                            console.log("AlterAttendanceResponse failed: " + err);
-                            return -1;
-                        });
+                    return { $inc: { number_of_no: -1, number_of_yes: 1 } };
 
                 case AttendanceResponseType.NOT_SURE:
-                    return await Event.updateOne({ _id: foundEvent._id }, { number_of_not_sure: shouldIncrease ? foundEvent.number_of_not_sure + 1 : foundEvent.number_of_not_sure - 1 }, {}).exec()
-                        .then(function (updatedEvent) {
-                            console.log("Number of not sure of event with id " + foundEvent._id + shouldIncrease ? " increased" : " decreased" + " successfully");
-                            return updatedEvent.number_of_not_sure;
-                        })
-                        .catch(function (err) {
-                            console.log("AlterAttendanceResponse failed: " + err);
-                            return -1;
-                        });
+                    return { $inc: { number_of_not_sure: -1, number_of_yes: 1 } };
             }
-        })
-        .catch(function (err) {
-            console.log("AlterAttendanceResponse failed: " + err);
-            return -1;
-        });
+
+            break;
+
+        case AttendanceResponseType.NO:
+            switch (oldAttendance) {
+                case AttendanceResponseType.YES:
+                    return { $inc: { number_of_yes: -1, number_of_no: 1 } };
+
+                case AttendanceResponseType.NOT_SURE:
+                    return { $inc: { number_of_not_sure: -1, number_of_no: 1 } };
+            }
+            break;
+
+        case AttendanceResponseType.NOT_SURE:
+            switch (oldAttendance) {
+                case AttendanceResponseType.YES:
+                    return { $inc: { number_of_yes: -1, number_of_not_sure: 1 } };
+
+                case AttendanceResponseType.NO:
+                    return { $inc: { number_of_no: -1, number_of_not_sure: 1 } };
+            }
+            break;
+    }
+}
+
+export async function AlterAttendanceResponse(id, newAttendance, oldAttendance) {
+    if (newAttendance != oldAttendance) {
+        return await Event.findByIdAndUpdate(id, GetAttendanceResponseUpdateCriteria(newAttendance, oldAttendance), {}).exec()
+            .then(function (updatedEvent) {
+                console.log("Successfully updated attendance responses of event with id " + id);
+
+                // Return updated event as JSON.
+                return JSON.stringify({
+                    event: {
+                        id: updatedEvent._id,
+                        title: updatedEvent.title,
+                        date: updatedEvent.date,
+                        location: updatedEvent.location,
+                        attendance_responses: {
+                            yes: updatedEvent.number_of_yes,
+                            no: updatedEvent.number_of_no,
+                            not_sure: updatedEvent.number_of_not_sure
+                        },
+                        public: updatedEvent.is_public ? "Öffentliche Veranstaltung" : "Interne Vereinsveranstaltung",
+                        description: updatedEvent.description,
+                        imgURI: updatedEvent.image_uri
+                    }
+                })
+            })
+            .catch(function (err) {
+
+            });
+    }
 }

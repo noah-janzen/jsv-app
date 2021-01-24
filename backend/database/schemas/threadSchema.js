@@ -1,5 +1,5 @@
 import Mongoose from 'mongoose';
-import responseSchema from './responseSchema.js';
+import replySchema from './replySchema.js';
 
 const threadSchema = Mongoose.Schema({
     message: {
@@ -11,7 +11,7 @@ const threadSchema = Mongoose.Schema({
         default: Date.now()
     },
     responses: {
-        type: [responseSchema],
+        type: [replySchema],
         default: []
     }
 });

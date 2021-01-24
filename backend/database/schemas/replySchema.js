@@ -1,6 +1,6 @@
 import Mongoose from 'mongoose';
 
-const responseSchema = Mongoose.Schema({
+const replySchema = Mongoose.Schema({
     text: {
         type: String,
         required: true
@@ -15,4 +15,4 @@ const responseSchema = Mongoose.Schema({
     }
 });
 
-export default responseSchema;
+export default replySchema;
