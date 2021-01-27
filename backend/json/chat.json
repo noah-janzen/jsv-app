@@ -14,6 +14,12 @@
                     "text_snippet": "Habt ihr auch so Bock auf Schützenfest?",
                     "date": "2020-02-10T19:00:00.000Z",
                     "number_of_answers": 5
+                },
+                {
+                    "id": 2,
+                    "text_snippet": "Neuer Eintrag",
+                    "date": "2020-02-10T19:00:00.000Z",
+                    "number_of_answers": 5
                 }
             ]
         },

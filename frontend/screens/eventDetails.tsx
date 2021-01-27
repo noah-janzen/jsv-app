@@ -13,7 +13,7 @@ import { PostAttendanceButton } from '../components/postAttendanceButton';
 
 export function EventDetails({ navigation }) {
     const [isLoading, setLoading] = useState(false);
-    const [event, setEvent] = useState({id: "0", title: "", date: "", location: "", attendance_responses: { yes: 0, no: 0, not_sure: 0}, public: "", description: "", imgURI: ""});
+    const [event, setEvent] = useState({id: "0", title: "", date: "", location: "", attendance_responses: { yes: 0, no: 0, not_sure: 0}, public: "", description: "", imgURI: "../assets/jsv-img.png"});
     const [refreshing, setRefreshing] = useState(false);
     const [attendanceStatus, setAttendanceStatus] = useState(undefined);
 

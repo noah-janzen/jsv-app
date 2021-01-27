@@ -12,6 +12,7 @@ export function NewsArticle({ navigation }) {
     const [newsArticle, setNewsArticle] = useState([]);
     const [refreshing, setRefreshing] = useState(false);
 
+    // initally load news article
     useEffect(() => {
         fetch(requestUrl, globalObjects.globalHeader)
             .then(response => response.json())

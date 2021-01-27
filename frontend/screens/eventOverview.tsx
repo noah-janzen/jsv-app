@@ -13,7 +13,7 @@ export function EventOverview({ navigation }) {
 
     let requestUrl = globalObjects.serverURL + '/event-overview';
 
-    // load initially the news events from server
+    // initially load the events from server
     useEffect(() => {
         fetch(requestUrl, globalObjects.globalHeader)
             .then((response) => response.json())
