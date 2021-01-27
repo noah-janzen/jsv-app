@@ -4,7 +4,7 @@ import newsSchema from '../schemas/newsSchema.js'
 const News = Mongoose.model("News", newsSchema);
 
 export async function GetNewsFeed() {
-    return await News.find({}).sort({ date: 'desc' }).exec()
+    return await News.find({}).sort({ date: 'desc' })
         .then(function (foundNewsArticles) {
             // Construct array of news articles.
             var newsArticles = [];
@@ -34,7 +34,7 @@ export async function CreateNewsArticle(title, content, image_uri) {
         title: title,
         content: content,
         image_uri: image_uri
-    }).exec()
+    })
         .then(function (createdNewsArticle) {
             console.log("Successfully created news article with id " + createdNewsArticle._id);
 
@@ -54,7 +54,7 @@ export async function CreateNewsArticle(title, content, image_uri) {
 }
 
 export async function DeleteNewsArticle(id) {
-    await News.findByIdAndDelete(id).exec()
+    await News.findByIdAndDelete(id)
         .then(() => console.log("Successfully deleted news article with id " + id))
         .catch(function (err) {
             console.log("DeleteNewsArticle failed: " + err);
@@ -62,7 +62,7 @@ export async function DeleteNewsArticle(id) {
 }
 
 export async function GetNewsArticle(id) {
-    return await News.findById(id).exec()
+    return await News.findById(id)
         .then(function (foundNewsArticle) {
             console.log("Successfully retrieved news article with id " + foundNewsArticle._id);
 

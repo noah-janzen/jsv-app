@@ -9,9 +9,9 @@ export async function CreateReply(thread_id, text) {
     return await Reply.create({
         text: text,
         thread_id: thread_id
-    }).exec()
+    })
         .then(async function (createdReply) {
-            return await Thread.findById(thread_id, {}, {}).exec()
+            return await Thread.findById(thread_id, {}, {})
                 .then(function (foundThread) {
                     foundThread.responses.push(createdReply);
                     foundThread.save();
@@ -37,9 +37,9 @@ export async function CreateReply(thread_id, text) {
 }
 
 export async function DeleteReply(id) {
-    await Reply.findByIdAndDelete(id, {}).exec()
+    await Reply.findByIdAndDelete(id, {})
         .then(async function (deletedReply) {
-            await Thread.findById(deletedReply.thread_id, {}, {}).exec()
+            await Thread.findById(deletedReply.thread_id, {}, {})
                 .then(function (foundThread) {
                     foundThread.responses.id(deletedReply._id).remove();
                     foundThread.save();

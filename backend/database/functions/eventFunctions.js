@@ -12,7 +12,7 @@ export const AttendanceResponseType = {
 const Event = Mongoose.model("Event", eventSchema);
 
 export async function GetEventOverview() {
-    return await Event.find({ "start_time": { "$gte": getMidnightTimeFormat(currentDateAndTime()) } }, "_id title location start_time number_of_yes number_of_no number_of_not_sure").exec()
+    return await Event.find({ "start_time": { "$gte": getMidnightTimeFormat(currentDateAndTime()) } }, "_id title location start_time number_of_yes number_of_no number_of_not_sure")
         .then(function (foundEvents) {
             // Construct array of events.
             var events = [];
@@ -49,7 +49,7 @@ export async function CreateEvent(title, description, location, start_time, imag
         start_time: start_time,
         image_uri: image_uri,
         is_public: is_public
-    }).exec()
+    })
         .then(function (createdEvent) {
             console.log("Successfully created event with id " + createdEvent._id);
 
@@ -78,7 +78,7 @@ export async function CreateEvent(title, description, location, start_time, imag
 }
 
 export async function DeleteEvent(id) {
-    await Event.findByIdAndDelete().exec()
+    await Event.findByIdAndDelete()
         .then(() => console.log("Successfully deleted event with id " + id))
         .catch(function (err) {
             console.log("DeleteEvent failed: " + err);
@@ -86,7 +86,7 @@ export async function DeleteEvent(id) {
 }
 
 export async function GetEvent(id) {
-    return await Event.findById(id).exec()
+    return await Event.findById(id)
         .then(function (foundEvent) {
             console.log("Successfully retrieved event with id " + foundEvent._id);
 
@@ -164,7 +164,7 @@ function GetAttendanceResponseUpdateCriteria(newAttendance, oldAttendance) {
 
 export async function AlterAttendanceResponse(id, newAttendance, oldAttendance) {
     if (newAttendance != oldAttendance) {
-        return await Event.findByIdAndUpdate(id, GetAttendanceResponseUpdateCriteria(newAttendance, oldAttendance), {}).exec()
+        return await Event.findByIdAndUpdate(id, GetAttendanceResponseUpdateCriteria(newAttendance, oldAttendance), {})
             .then(function (updatedEvent) {
                 console.log("Successfully updated attendance responses of event with id " + id);
 
