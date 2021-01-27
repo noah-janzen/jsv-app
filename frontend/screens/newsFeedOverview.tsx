@@ -30,7 +30,7 @@ export function NewsFeedOverview({ navigation }) {
             let responseJson = await response.json();
             setData(responseJson.newsItems);
             setRefreshing(false);
-        } catch(error) {
+        } catch (error) {
             console.error(error);
         }
     }, [refreshing]);

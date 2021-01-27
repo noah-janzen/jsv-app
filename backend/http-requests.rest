@@ -1,0 +1,27 @@
+// Base route.
+GET http://localhost:3000
+###
+
+// Get news feed.
+GET http://localhost:3000/api/news
+###
+
+// Get a news article.
+GET http://localhost:3000/api/news/600a776b80184306ecaad665
+###
+
+// Get event overview.
+GET http://localhost:3000/api/events
+###
+
+// Get an event.
+GET http://localhost:3000/api/events/600a7c4957b6f62fe8b53ea8
+###
+
+// Get the chat overview.
+GET http://localhost:3000/api/chat
+###
+
+// Get a thread.
+GET http://localhost:3000/api/chat/600a8146b5612f27e492a49a
+###

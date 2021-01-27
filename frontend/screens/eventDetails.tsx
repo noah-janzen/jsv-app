@@ -17,7 +17,7 @@ export function EventDetails({ navigation }) {
     const [refreshing, setRefreshing] = useState(false);
     const [attendanceStatus, setAttendanceStatus] = useState(undefined);
 
-    let requestUrl = globalObjects.serverURL + '/event/id=' + navigation.getParam('id');
+    let requestUrl = globalObjects.serverURL + '/event/' + navigation.getParam('id');
 
     // load initially the news events from server
     useEffect(() => {
@@ -26,7 +26,7 @@ export function EventDetails({ navigation }) {
             .then((json) => setEvent(json.event))
             .catch((error) => console.error(error))
             .finally(() => setLoading(false));
-    }, []);    
+    }, []);
 
     // pull to refresh function
     const onRefresh = React.useCallback(async () => {
@@ -41,28 +41,28 @@ export function EventDetails({ navigation }) {
     // update attendance
     const updateAttendanceStatusHandler = (newAttendanceStatus: string) => {
         console.log('update attendance ' + newAttendanceStatus);
-        
+
         // attendance status is changed
-        if(attendanceStatus != undefined && attendanceStatus != newAttendanceStatus) {
+        if (attendanceStatus != undefined && attendanceStatus != newAttendanceStatus) {
             // remove old status
             event.attendance_responses[attendanceStatus] -= 1;
         }
         // 
-        if(attendanceStatus != newAttendanceStatus) {
+        if (attendanceStatus != newAttendanceStatus) {
             event.attendance_responses[newAttendanceStatus] += 1;
         }
 
         setAttendanceStatus(newAttendanceStatus);
-        
+
 
     }
-    
+
     return (
         <SafeAreaView style={styles.container}>
 
             {isLoading ? <ActivityIndicator /> : (
 
-            <ScrollView refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
+                <ScrollView refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
                     <ImageBackground source={{ uri: event.imgURI }} style={styles.img}></ImageBackground>
 
                     <View style={styles.contentContainer}>
@@ -98,25 +98,25 @@ export function EventDetails({ navigation }) {
                 </ScrollView>)}
 
 
-                    <View style={styles.buttonContainer}>
-                        <PostAttendanceButton
-                            labelText={'Zusage'}
-                            pressHandler={updateAttendanceStatusHandler}
-                            attendanceStatus={'yes'}
-                            bgColor={'#27AE60'} />
-                        <PostAttendanceButton
-                            labelText={'Absage'}
-                            pressHandler={updateAttendanceStatusHandler}
-                            attendanceStatus={'no'}
-                            bgColor={'#C0392B'} />
-                        <PostAttendanceButton
-                            labelText={'Weiß nicht'}
-                            pressHandler={updateAttendanceStatusHandler}
-                            attendanceStatus={'not_sure'}
-                            bgColor={'#F39C12'} />
-                    </View>
+            <View style={styles.buttonContainer}>
+                <PostAttendanceButton
+                    labelText={'Zusage'}
+                    pressHandler={updateAttendanceStatusHandler}
+                    attendanceStatus={'yes'}
+                    bgColor={'#27AE60'} />
+                <PostAttendanceButton
+                    labelText={'Absage'}
+                    pressHandler={updateAttendanceStatusHandler}
+                    attendanceStatus={'no'}
+                    bgColor={'#C0392B'} />
+                <PostAttendanceButton
+                    labelText={'Weiß nicht'}
+                    pressHandler={updateAttendanceStatusHandler}
+                    attendanceStatus={'not_sure'}
+                    bgColor={'#F39C12'} />
+            </View>
 
-            
+
         </SafeAreaView>
     )
 }
