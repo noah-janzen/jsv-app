@@ -15,6 +15,7 @@ export function ChatOverview({ navigation }) {
     const [threadText, setThreadText] = useState('');
 
     let requestUrl = globalObjects.serverURL + '/chat';
+    let postUrl = globalObjects.serverURL + '/chat/create';
 
     useEffect(() => {
         fetch(requestUrl, globalObjects.globalHeader)
@@ -40,11 +41,17 @@ export function ChatOverview({ navigation }) {
 
     const pressSendHandler = (text) => {
         if (threadText.length > 0) {
-            let text = threadText;
+            let text: string = threadText;
             text = text.replace(/^\s+|\s+$/g, '');
             
             // send new thread to server
-            // ToDo
+            fetch(postUrl, {
+                method: 'POST',
+                headers: globalObjects.globalHeader.headers,
+                body: JSON.stringify({
+                    text: threadText
+                })
+            });
 
             // refresh threads
             onRefresh();
