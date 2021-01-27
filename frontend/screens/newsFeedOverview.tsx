@@ -9,12 +9,13 @@ export function NewsFeedOverview({ navigation }) {
     const [data, setData] = useState([]);
     const [refreshing, setRefreshing] = useState(false);
 
-    let requestUrl = globalObjects.serverURL + '/news-feed';
+    let requestUrl = globalObjects.serverURL + '/news';
 
     useEffect(() => {
         fetch(requestUrl, globalObjects.globalHeader)
             .then((response) => response.json())
-            .then((json) => setData(json.newsItems))
+            .then((json) => setData(json.newsListItems))
+            .then(json => console.log(json))
             .catch((error) => console.error(error))
             .finally(() => setLoading(false));
     }, []);
@@ -28,7 +29,7 @@ export function NewsFeedOverview({ navigation }) {
         try {
             let response = await fetch(requestUrl);
             let responseJson = await response.json();
-            setData(responseJson.newsItems);
+            setData(responseJson.newsListItems);
             setRefreshing(false);
         } catch (error) {
             console.error(error);
