@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, ImageBackground, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, ImageBackground, Pressable } from 'react-native';
 import ParticipationInformation from './participationInformation';
 import globalStyles from '../styles/globalStyles';
 import createDateTimeString from '../globalObjects/createDateTimeString';
@@ -15,7 +15,7 @@ const EventItem = ({ title, date, location, attendance_responses, onPress }) => 
 
 
     return (
-        <TouchableOpacity onPress={onPress}>
+        <Pressable onPress={onPress}>
             <View style={[globalStyles.item, styles.eventItem]}>
 
                 <View style={{ flexDirection: 'row', justifyContent: 'flex-start' }}>
@@ -34,7 +34,7 @@ const EventItem = ({ title, date, location, attendance_responses, onPress }) => 
                 </View>
 
             </View>
-        </TouchableOpacity >
+        </Pressable >
     );
 }
 

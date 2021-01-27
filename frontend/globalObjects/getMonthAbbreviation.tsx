@@ -1,5 +1,3 @@
-import React from 'react';
-
 function getMonthAbbreviation(month: number) {
     let monthAbbreviations = new Map<number, string>();
     monthAbbreviations.set(0, "JAN");

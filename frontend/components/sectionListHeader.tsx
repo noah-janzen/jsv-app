@@ -13,7 +13,10 @@ export default function SectionListHeader({ text }) {
 const styles = StyleSheet.create({
     sectionHeader: {
         backgroundColor: colors.jsvScreenBackground,
-        padding: 20
+        paddingLeft: 20,
+        paddingRight: 20,
+        paddingTop: 10,
+        paddingBottom: 10
     },
     sectionHeaderText: {
         fontSize: 25,

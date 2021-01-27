@@ -6,7 +6,7 @@ import createDateString from '../globalObjects/createDateString';
 
 export function NewsArticle({ navigation }) {
     let id = navigation.getParam('id');
-    let requestUrl = globalObjects.serverURL + '/news-article/' + id;
+    let requestUrl = globalObjects.serverURL + '/news/' + id;
 
     const [isLoading, setLoading] = useState(true);
     const [newsArticle, setNewsArticle] = useState([]);

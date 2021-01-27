@@ -8,7 +8,8 @@ import globalStyles from '../styles/globalStyles';
 
 export function Thread({ navigation }) {
     let id = navigation.getParam('id');
-    let requestUrl = globalObjects.serverURL + '/thread/' + id;
+    let requestUrl = globalObjects.serverURL + '/chat/' + id;
+    let postUrl = globalObjects.serverURL + '/chat/reply/' + id; 
 
     const [isLoading, setLoading] = useState(false);
     const [thread, setThread] = useState({ id: "0", text: "", date: "", number_of_answers: 0, responses: [{ id: "0", text: "", date: "" }] });
@@ -19,7 +20,7 @@ export function Thread({ navigation }) {
     useEffect(() => {
         fetch(requestUrl, globalObjects.globalHeader)
             .then(response => response.json())
-            .then(json => setThread(json))
+            .then(json => { console.log(json); setThread(json);  })
             .catch(error => console.error(error))
             .finally(() => setLoading(false));
     }, []);
@@ -35,17 +36,15 @@ export function Thread({ navigation }) {
     }, []);
 
     const sendMessageHandler = (inputText: string) => {
-        let localThread = thread;
-        localThread.number_of_answers += 1;
-        localThread.responses.push({
-            id: "5",
-            text: inputText,
-            date: new Date().toISOString()
-        });
-        setThread(localThread);
-        setNumberOfAnswers(localThread.number_of_answers);
-
-        console.log(new Date().toISOString());
+        // send new thread to server
+        fetch(postUrl, {
+            method: 'POST',
+            headers: globalObjects.globalHeader.headers,
+            body: JSON.stringify({
+                reply_text: inputText
+            })
+        })
+            .finally(() => onRefresh());
     }
 
     return (

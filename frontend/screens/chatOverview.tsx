@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, ActivityIndicator, SafeAreaView, SectionList, RefreshControl, Pressable, Modal, TextInput } from 'react-native';
+import { StyleSheet, Text, View, ActivityIndicator, SafeAreaView, SectionList, RefreshControl, Pressable, Modal, TextInput, FlatList } from 'react-native';
 import ThreadItem from '../components/threadItem';
 import SectionListHeader from '../components/sectionListHeader';
 import colors from '../styles/colors';
 import globalObjects from '../globalObjects/globalObjects';
 import { Ionicons } from '@expo/vector-icons';
 import getMonthStringByMonthId from '../globalObjects/getMonthStringByMonthId';
+import { ChatListFactory } from '../globalObjects/chatListFactory';
 
 export function ChatOverview({ navigation }) {
-    const [isLoading, setLoading] = useState(false);
+    const [isLoading, setLoading] = useState(true);
     const [threads, setThreads] = useState([]);
     const [refreshing, setRefreshing] = useState(false);
     const [modalOpen, setModalOpen] = useState(false);
@@ -20,8 +21,11 @@ export function ChatOverview({ navigation }) {
     useEffect(() => {
         fetch(requestUrl, globalObjects.globalHeader)
             .then((response) => response.json())
-            .then((json) => setThreads(json.chat_by_month))
-            .catch((error) => console.error(error))
+            .then(object => object.threadListItems)
+            .then(chatListRaw => 
+                chatListRaw.map(chatListItemRaw => ChatListFactory.fromRaw(chatListItemRaw)))
+            .then(chatList => setThreads(chatList))
+            .catch(error => console.error(error))
             .finally(() => setLoading(false));
     }, []);
 
@@ -34,8 +38,11 @@ export function ChatOverview({ navigation }) {
         setRefreshing(true);
         fetch(requestUrl, globalObjects.globalHeader)
             .then((response) => response.json())
-            .then((json) => setThreads(json.chat_by_month))
-            .catch((error) => console.error(error))
+            .then(object => object.threadListItems)
+            .then(chatListRaw => 
+                chatListRaw.map(chatListItemRaw => ChatListFactory.fromRaw(chatListItemRaw)))
+            .then(chatList => setThreads(chatList))
+            .catch(error => console.error(error))
             .finally(() => setRefreshing(false));
     }, []);
 
@@ -51,10 +58,9 @@ export function ChatOverview({ navigation }) {
                 body: JSON.stringify({
                     text: threadText
                 })
-            });
-
-            // refresh threads
-            onRefresh();
+            })
+                .then(() => console.log('response'))
+                .finally(() => onRefresh());
             
             setThreadText('');
             setModalOpen(false);
@@ -97,11 +103,11 @@ export function ChatOverview({ navigation }) {
 
             <View style={styles.container}>
                 {isLoading ? <ActivityIndicator /> :
-                    (<SectionList
-                        sections={threads}
+                    (<FlatList
+                        data={threads}
                         refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
-                        renderItem={({ item }) => (<ThreadItem onPress={() => pressHandler(item)} textSnippet={item.text_snippet} date={item.date} numberOfAnswers={item.number_of_answers} />)}
-                        renderSectionHeader={({ section: { title } }) => (<SectionListHeader text={title} />)}
+                        renderItem={({ item, index }) => (<ThreadItem onPress={() => pressHandler(item)} index={index} textSnippet={item.textSnippet} date={item.date} numberOfAnswers={item.numberOfAnswers} />)}
+                        
                     />
                     )}
                 <Pressable

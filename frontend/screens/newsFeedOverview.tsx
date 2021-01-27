@@ -15,7 +15,6 @@ export function NewsFeedOverview({ navigation }) {
         fetch(requestUrl, globalObjects.globalHeader)
             .then((response) => response.json())
             .then((json) => setData(json.newsListItems))
-            .then(json => console.log(json))
             .catch((error) => console.error(error))
             .finally(() => setLoading(false));
     }, []);

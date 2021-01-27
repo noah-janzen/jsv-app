@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, ActivityIndicator, SafeAreaView, SectionList, R
 import EventItem from '../components/eventItem';
 import SectionListHeader from '../components/sectionListHeader';
 import createDateTimeString from '../globalObjects/createDateTimeString';
+import { EventSectionListFactory } from '../globalObjects/eventSectionListFactory';
 import globalObjects from '../globalObjects/globalObjects';
 import colors from '../styles/colors';
 
@@ -11,13 +12,16 @@ export function EventOverview({ navigation }) {
     const [eventsByMonth, setEventsByMonth] = useState([]);
     const [refreshing, setRefreshing] = useState(false);
 
-    let requestUrl = globalObjects.serverURL + '/event-overview';
+    let requestUrl = globalObjects.serverURL + '/events';
 
     // initially load the events from server
     useEffect(() => {
         fetch(requestUrl, globalObjects.globalHeader)
             .then((response) => response.json())
-            .then((json) => setEventsByMonth(json.events_by_month))
+            .then(json => json.eventListItems)
+            .then(eventListItemRawArray => EventSectionListFactory.fromEventListItemRawArray(eventListItemRawArray))
+            .then(eventListItemArray => EventSectionListFactory.toSectionList(eventListItemArray))
+            .then(result => setEventsByMonth(result))
             .catch((error) => console.error(error))
             .finally(() => setLoading(false));
     }, []);
@@ -29,15 +33,15 @@ export function EventOverview({ navigation }) {
     // pull to refresh function
     const onRefresh = React.useCallback(async () => {
         setRefreshing(true);
-        try {
-            let response = await fetch(requestUrl);
-            let json = await response.json();
-            setEventsByMonth(json.events_by_month);
-            setRefreshing(false);
-        } catch(error) {
-            console.error(error);
-        }
-    }, [refreshing]);
+        fetch(requestUrl, globalObjects.globalHeader)
+            .then((response) => response.json())
+            .then(json => json.eventListItems)
+            .then(eventListItemRawArray => EventSectionListFactory.fromEventListItemRawArray(eventListItemRawArray))
+            .then(eventListItemArray => EventSectionListFactory.toSectionList(eventListItemArray))
+            .then(result => setEventsByMonth(result))
+            .catch((error) => console.error(error))
+            .finally(() => setRefreshing(false));
+    }, []);
 
     return (
         <SafeAreaView style={{ flex: 1 }}>

@@ -1,19 +1,19 @@
 import React from 'react';
-import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
+import { StyleSheet, View, Text, Pressable } from 'react-native';
 import createDateString from '../globalObjects/createDateString';
 import colors from '../styles/colors';
 import globalStyles from '../styles/globalStyles';
 
-export default function ThreadItem({ textSnippet, date, numberOfAnswers, onPress }) {
+export default function ThreadItem({ textSnippet, date, numberOfAnswers, onPress, index }) {
     return (
-        <TouchableOpacity onPress={onPress}>
-            <View style={globalStyles.item}>
+        <Pressable onPress={onPress}>
+            <View style={[globalStyles.item, index == 0 ? globalStyles.firstItem : globalStyles.notFirstItem]}>
                 <View style={styles.threadItemContent}>
                     <Text style={styles.threadText} numberOfLines={3}>{textSnippet}</Text>
-                    <Text style={styles.threadInfo}>{createDateString(new Date(date))} · {numberOfAnswers} Antworten</Text>
+                    <Text style={styles.threadInfo}>{createDateString(date)} · {numberOfAnswers} Antworten</Text>
                 </View>
             </View>
-        </TouchableOpacity>
+        </Pressable>
     );
 }
 

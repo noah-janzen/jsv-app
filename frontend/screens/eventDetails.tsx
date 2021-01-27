@@ -17,7 +17,7 @@ export function EventDetails({ navigation }) {
     const [refreshing, setRefreshing] = useState(false);
     const [attendanceStatus, setAttendanceStatus] = useState(undefined);
 
-    let requestUrl = globalObjects.serverURL + '/event/' + navigation.getParam('id');
+    let requestUrl = globalObjects.serverURL + '/events/' + navigation.getParam('id');
 
     // load initially the news events from server
     useEffect(() => {
