@@ -7,6 +7,7 @@ import getMonthAbbreviation from '../globalObjects/getMonthAbbreviation';
 import colors from '../styles/colors';
 import { AttendanceLabel } from './attendanceLabel';
 import createDateString from '../globalObjects/createDateString';
+import { createTimeString } from '../globalObjects/createTimeString';
 
 const EventItem = ({ title, date, location, attendance_responses, onPress }) => {
     let parsedEventDate = new Date(date);
@@ -27,7 +28,7 @@ const EventItem = ({ title, date, location, attendance_responses, onPress }) => 
 
                     <View style={styles.eventInfo}>
                         <Text style={styles.title} numberOfLines={1}>{title}</Text>
-                        <Text style={styles.timeAndLocation} numberOfLines={1}>{createDateString(new Date(date)) + ' · ' + location}</Text>
+                        <Text style={styles.timeAndLocation} numberOfLines={1}>{createTimeString(new Date(date)) + ' Uhr' + ' · ' + location}</Text>
                         <AttendanceLabel attendance_responses={attendance_responses} />
                     </View>
 
@@ -63,10 +64,10 @@ const styles = StyleSheet.create({
         fontSize: 14,
         color: '#0F6043'
     },
-    
+
     eventInfo: {
-        paddingLeft: 2*padding,
-        paddingRight: 2*padding
+        paddingLeft: 2 * padding,
+        paddingRight: 2 * padding
     },
     title: {
         fontSize: 18,
