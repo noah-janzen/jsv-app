@@ -10,6 +10,4 @@ export class ChatListFactory {
             numberOfAnswers: cl.number_of_answers
         };
     }
-
-
 }

@@ -1,7 +1,7 @@
 import { EventListItem } from "../models/eventListItem";
 import { EventListItemRaw } from "../models/eventListRaw";
 import { EventSectionListSection, EventSectionListSectionItem } from "../models/eventSectionList";
-import getMonthString from "./getMonthString";
+import { getMonthString } from "./dateAndTimeFunctions";
 
 export class EventSectionListFactory {
     static fromEventListItemRaw(eventListItemRaw: EventListItemRaw): EventListItem {
@@ -21,7 +21,7 @@ export class EventSectionListFactory {
         // adds each item in EventSectionList
         eventListItems.forEach(item => {
             let monthString: string = getMonthString(item.date.getMonth());
-            
+
             // if month section already exists, push empty month element
             if (eventSectionList.filter(e => e.title === monthString).length === 0) {
                 eventSectionList.push(

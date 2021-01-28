@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, Text, SafeAreaView, ImageBackground, ScrollView, RefreshControl } from 'react-native';
+import { getDateString } from '../globalObjects/dateAndTimeFunctions';
 import globalObjects from '../globalObjects/globalObjects';
 import globalStyles from '../styles/globalStyles';
-import createDateString from '../globalObjects/createDateString';
 
 export function NewsArticle({ navigation }) {
     let id = navigation.getParam('id');
@@ -37,7 +37,7 @@ export function NewsArticle({ navigation }) {
                 <ImageBackground source={{ uri: newsArticle.imgURI }} style={styles.img}></ImageBackground>
                 <Text style={styles.headline}>{newsArticle.title}</Text>
                 <Text style={styles.text}>{newsArticle.fullText}</Text>
-                <Text style={[globalStyles.date, styles.date]}>{createDateString(new Date(newsArticle.date))}</Text>
+                <Text style={[globalStyles.date, styles.date]}>{getDateString(new Date(newsArticle.date))}</Text>
             </ScrollView>
         </SafeAreaView>
     )

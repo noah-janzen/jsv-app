@@ -1,7 +1,6 @@
 import React from 'react';
 import { StyleSheet, View, Text, Pressable } from 'react-native';
-import createDateString from '../globalObjects/createDateString';
-import colors from '../styles/colors';
+import { getDateString } from '../globalObjects/dateAndTimeFunctions';
 import globalStyles from '../styles/globalStyles';
 
 export default function ThreadItem({ textSnippet, date, numberOfAnswers, onPress, index }) {
@@ -10,7 +9,7 @@ export default function ThreadItem({ textSnippet, date, numberOfAnswers, onPress
             <View style={[globalStyles.item, index == 0 ? globalStyles.firstItem : globalStyles.notFirstItem]}>
                 <View style={styles.threadItemContent}>
                     <Text style={styles.threadText} numberOfLines={3}>{textSnippet}</Text>
-                    <Text style={styles.threadInfo}>{createDateString(date)} · {numberOfAnswers} Antworten</Text>
+                    <Text style={styles.threadInfo}>{getDateString(date)} · {numberOfAnswers} Antworten</Text>
                 </View>
             </View>
         </Pressable>

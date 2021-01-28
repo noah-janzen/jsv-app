@@ -2,12 +2,9 @@ import React from 'react';
 import { StyleSheet, Text, View, ImageBackground, Pressable } from 'react-native';
 import ParticipationInformation from './participationInformation';
 import globalStyles from '../styles/globalStyles';
-import createDateTimeString from '../globalObjects/createDateTimeString';
-import getMonthAbbreviation from '../globalObjects/getMonthAbbreviation';
 import colors from '../styles/colors';
 import { AttendanceLabel } from './attendanceLabel';
-import createDateString from '../globalObjects/createDateString';
-import { createTimeString } from '../globalObjects/createTimeString';
+import { getTimeString, getMonthAbbreviation } from '../globalObjects/dateAndTimeFunctions';
 
 const EventItem = ({ title, date, location, attendance_responses, onPress }) => {
     let parsedEventDate = new Date(date);
@@ -28,7 +25,7 @@ const EventItem = ({ title, date, location, attendance_responses, onPress }) => 
 
                     <View style={styles.eventInfo}>
                         <Text style={styles.title} numberOfLines={1}>{title}</Text>
-                        <Text style={styles.timeAndLocation} numberOfLines={1}>{createTimeString(new Date(date)) + ' Uhr' + ' · ' + location}</Text>
+                        <Text style={styles.timeAndLocation} numberOfLines={1}>{getTimeString(new Date(date)) + ' · ' + location}</Text>
                         <AttendanceLabel attendance_responses={attendance_responses} />
                     </View>
 

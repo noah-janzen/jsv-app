@@ -2,14 +2,14 @@ import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View, SafeAreaView, FlatList, ActivityIndicator, RefreshControl } from 'react-native';
 import { ChatBubble } from '../components/chatBubble';
 import ResponseInput from '../components/responseInput';
-import createDateTimeString from '../globalObjects/createDateTimeString';
+import { getDateTimeString } from '../globalObjects/dateAndTimeFunctions';
 import globalObjects from '../globalObjects/globalObjects';
 import globalStyles from '../styles/globalStyles';
 
 export function Thread({ navigation }) {
     let id = navigation.getParam('id');
     let requestUrl = globalObjects.serverURL + '/chat/' + id;
-    let postUrl = globalObjects.serverURL + '/chat/reply/' + id; 
+    let postUrl = globalObjects.serverURL + '/chat/reply/' + id;
 
     const [isLoading, setLoading] = useState(false);
     const [thread, setThread] = useState({ id: "0", text: "", date: "", number_of_answers: 0, responses: [{ id: "0", text: "", date: "" }] });
@@ -20,7 +20,7 @@ export function Thread({ navigation }) {
     useEffect(() => {
         fetch(requestUrl, globalObjects.globalHeader)
             .then(response => response.json())
-            .then(json => { console.log(json); setThread(json);  })
+            .then(json => { console.log(json); setThread(json); })
             .catch(error => console.error(error))
             .finally(() => setLoading(false));
     }, []);
@@ -52,7 +52,7 @@ export function Thread({ navigation }) {
             {/* Initial message */}
             <View style={styles.message} >
                 <Text style={styles.threadText}>{thread.text}</Text>
-                <Text style={styles.threadInfo}>{createDateTimeString(new Date(thread.date))}</Text>
+                <Text style={styles.threadInfo}>{getDateTimeString(new Date(thread.date))}</Text>
             </View>
 
             {/* Chat bubbles */}

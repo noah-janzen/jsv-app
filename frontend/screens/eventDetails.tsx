@@ -7,13 +7,13 @@ import EventTypeText from '../components/eventTypeText';
 import ParticipationInformation from '../components/participationInformation';
 import { AttendanceLabel } from '../components/attendanceLabel';
 import { EventInfoListPoint } from '../components/eventInfoListPoint';
-import createDateTimeString from '../globalObjects/createDateTimeString';
 import globalObjects from '../globalObjects/globalObjects';
 import { PostAttendanceButton } from '../components/postAttendanceButton';
+import { getDateTimeString } from '../globalObjects/dateAndTimeFunctions';
 
 export function EventDetails({ navigation }) {
     const [isLoading, setLoading] = useState(false);
-    const [event, setEvent] = useState({id: "0", title: "", date: "", location: "", attendance_responses: { yes: 0, no: 0, not_sure: 0}, public: "", description: "", imgURI: "../assets/jsv-img.png"});
+    const [event, setEvent] = useState({ id: "0", title: "", date: "", location: "", attendance_responses: { yes: 0, no: 0, not_sure: 0 }, public: "", description: "", imgURI: "../assets/jsv-img.png" });
     const [refreshing, setRefreshing] = useState(false);
     const [attendanceStatus, setAttendanceStatus] = useState(undefined);
 
@@ -53,8 +53,6 @@ export function EventDetails({ navigation }) {
         }
 
         setAttendanceStatus(newAttendanceStatus);
-
-
     }
 
     return (
@@ -74,7 +72,7 @@ export function EventDetails({ navigation }) {
                             <Text style={styles.subTitle}>KURZINFOS</Text>
                             <EventInfoListPoint
                                 symbolName={'calendar'}
-                                text={createDateTimeString(new Date(event.date))} />
+                                text={getDateTimeString(new Date(event.date))} />
                             <EventInfoListPoint
                                 symbolName={'location-sharp'}
                                 text={event.location} />
