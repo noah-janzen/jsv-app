@@ -6,12 +6,14 @@ const Reply = Mongoose.model("Response", replySchema);
 const Thread = Mongoose.model("Thread", threadSchema)
 
 export async function CreateReply(thread_id, text) {
-    return await Reply.create({
-        text: text,
-        thread_id: thread_id
-    })
+    return await Reply
+        .create({
+            text: text,
+            thread_id: thread_id
+        })
         .then(async function (createdReply) {
-            return await Thread.findById(thread_id, {}, {})
+            return await Thread
+                .findById(thread_id, {}, {})
                 .then(function (foundThread) {
                     foundThread.responses.push(createdReply);
                     foundThread.save();

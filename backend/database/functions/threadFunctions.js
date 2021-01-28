@@ -4,7 +4,9 @@ import threadSchema from '../schemas/threadSchema.js'
 const Thread = Mongoose.model("Thread", threadSchema);
 
 export async function GetChatOverview() {
-    return await Thread.find({})
+    return await Thread
+        .find({})
+        .sort({ date: 'desc' })
         .then(function (foundThreads) {
             // Construct array of threads.
             var threads = [];
@@ -27,9 +29,8 @@ export async function GetChatOverview() {
 }
 
 export async function CreateThread(message) {
-    return await Thread.create({
-        message: message
-    })
+    return await Thread
+        .create({ message: message })
         .then(function (createdThread) {
             console.log("Successfully created thread with id " + createdThread._id);
 
@@ -48,7 +49,8 @@ export async function CreateThread(message) {
 }
 
 export async function DeleteThread(id) {
-    return await Thread.deleteOne({ _id: id }, {})
+    return await Thread
+        .deleteOne({ _id: id }, {})
         .then(() => console.log("Thread with id " + id + " deleted successfully."))
         .catch(function (err) {
             console.log("DeleteThread failed: " + err);
@@ -56,7 +58,8 @@ export async function DeleteThread(id) {
 }
 
 export async function GetThread(id) {
-    return await Thread.findById(id, {}, {})
+    return await Thread
+        .findById(id, {}, {})
         .then(function (foundThread) {
             console.log("Successfully retrieved thread with id " + foundThread._id);
 

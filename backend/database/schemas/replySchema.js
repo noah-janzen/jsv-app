@@ -7,7 +7,7 @@ const replySchema = Mongoose.Schema({
     },
     date: {
         type: Date,
-        default: Date.now()
+        default: new Date()
     },
     thread_id: {
         type: Mongoose.ObjectId,
