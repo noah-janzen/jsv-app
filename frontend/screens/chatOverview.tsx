@@ -22,7 +22,7 @@ export function ChatOverview({ navigation }) {
         fetch(requestUrl, globalObjects.globalHeader)
             .then((response) => response.json())
             .then(object => object.threadListItems)
-            .then(chatListRaw => 
+            .then(chatListRaw =>
                 chatListRaw.map(chatListItemRaw => ChatListFactory.fromRaw(chatListItemRaw)))
             .then(chatList => setThreads(chatList))
             .catch(error => console.error(error))
@@ -39,7 +39,7 @@ export function ChatOverview({ navigation }) {
         fetch(requestUrl, globalObjects.globalHeader)
             .then((response) => response.json())
             .then(object => object.threadListItems)
-            .then(chatListRaw => 
+            .then(chatListRaw =>
                 chatListRaw.map(chatListItemRaw => ChatListFactory.fromRaw(chatListItemRaw)))
             .then(chatList => setThreads(chatList))
             .catch(error => console.error(error))
@@ -50,7 +50,7 @@ export function ChatOverview({ navigation }) {
         if (threadText.length > 0) {
             let text: string = threadText;
             text = text.replace(/^\s+|\s+$/g, '');
-            
+
             // send new thread to server
             fetch(postUrl, {
                 method: 'POST',
@@ -61,7 +61,7 @@ export function ChatOverview({ navigation }) {
             })
                 .then(() => console.log('response'))
                 .finally(() => onRefresh());
-            
+
             setThreadText('');
             setModalOpen(false);
         }
@@ -74,17 +74,17 @@ export function ChatOverview({ navigation }) {
                 <SafeAreaView style={styles.modalSafeAreaView}>
                     <View style={styles.modalHeader}>
                         <Pressable onPress={() => setModalOpen(false)}>
-                            <Ionicons size={30} name={'arrow-back-outline'} color={'#000'} style={styles.closeIcon}/>
+                            <Ionicons size={30} name={'arrow-back-outline'} color={'#000'} style={styles.closeIcon} />
                         </Pressable>
-                        
+
                         <Pressable onPress={pressSendHandler}>
                             <Text style={styles.modalHeaderText}>Absenden</Text>
                         </Pressable>
-                        
-                        
+
+
                     </View>
 
-                    
+
                     <View style={styles.modalContent}>
                         <TextInput
                             placeholder='Deine Nachricht…'
@@ -107,13 +107,13 @@ export function ChatOverview({ navigation }) {
                         data={threads}
                         refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
                         renderItem={({ item, index }) => (<ThreadItem onPress={() => pressHandler(item)} index={index} textSnippet={item.textSnippet} date={item.date} numberOfAnswers={item.numberOfAnswers} />)}
-                        
+
                     />
                     )}
                 <Pressable
                     style={styles.addThreadButton}
-                    onPress={ () => setModalOpen(true) }>
-                    <Ionicons size={60} name={'add-circle-outline'} color={'#5D5D5D'}/>
+                    onPress={() => setModalOpen(true)}>
+                    <Ionicons size={60} name={'add-circle-outline'} color={'#5D5D5D'} />
                 </Pressable>
             </View>
         </SafeAreaView>

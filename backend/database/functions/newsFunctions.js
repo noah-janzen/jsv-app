@@ -44,10 +44,10 @@ export async function CreateNewsArticle(title, content, image_uri) {
             // Return news article as JSON.
             return JSON.stringify({
                 id: createdNewsArticle.id,
-                title: createdNews.title,
-                imgURI: createdNews.image_uri,
-                date: createdNews.date,
-                fullText: createdNews.content
+                title: createdNewsArticle.title,
+                imgURI: createdNewsArticle.image_uri,
+                date: createdNewsArticle.date,
+                fullText: createdNewsArticle.content
             });
         })
         .catch(function (err) {

@@ -10,12 +10,37 @@ GET http://localhost:3000/api/news
 GET http://localhost:3000/api/news/600a776b80184306ecaad665
 ###
 
+// Create a new news article.
+POST http://localhost:3000/api/news/create
+Content-Type: application/json
+
+{
+    "title": "Die JSV-APP wurde gelauncht!",
+    "content": "Es ist endlich soweit. Die JSV-APP wurde gelauncht. Ihr könnt sie euch im App-Store runterladen!",
+    "image_uri": "https://www.jsv-huenxe.de/wp-content/uploads/2019/06/WhatsApp-Image-2019-06-04-at-18.52.29-624x495.jpeg"
+}
+
+###
 // Get event overview.
 GET http://localhost:3000/api/events
 ###
 
 // Get an event.
 GET http://localhost:3000/api/events/600a7c4957b6f62fe8b53ea8
+###
+
+// Create a new event.
+POST http://localhost:3000/api/events/create
+Content-Type: application/json
+
+{
+    "title": "Vorstellung der JSV-APP",
+    "description": "Es ist endlich soweit: Die JSV-APP ist fertiggestellt! Bei diesem Event stellen wir euch die neue App vor.",
+    "location": "STV Vereinsheim",
+    "start_time": "2021-04-03T18:30:00.000+00:00",
+    "image_uri": "https://www.jsv-huenxe.de/wp-content/uploads/2020/01/IMG_8515.jpg",
+    "is_public": true
+}
 ###
 
 // Get the chat overview.
