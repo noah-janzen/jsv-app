@@ -1,5 +1,5 @@
 import Mongoose from 'mongoose';
-import replySchema from '../schemas/replySchema.js'
+import replySchema from '../schemas/replySchema.js';
 import threadSchema from '../schemas/threadSchema.js';
 import { currentDateAndTime } from './shared.js';
 
@@ -7,7 +7,7 @@ import { currentDateAndTime } from './shared.js';
 const Reply = Mongoose.model("Response", replySchema);
 
 // Conpile model from thread schema.
-const Thread = Mongoose.model("Thread", threadSchema)
+const Thread = Mongoose.model("Thread", threadSchema);
 
 /**
  * Creates a thread reply and adds it to the thread that has the specified id.
@@ -15,7 +15,7 @@ const Thread = Mongoose.model("Thread", threadSchema)
  * @param {*} text The created reply's text.
  * @returns The newly created reply as a JSON object.
  */
-export async function CreateReply(thread_id, text) {
+const CreateReply = async (thread_id, text) => {
     return await Reply
         .create({
             text: text,
@@ -46,13 +46,13 @@ export async function CreateReply(thread_id, text) {
             console.log("CreateReply failed: " + err);
             return "";
         });
-}
+};
 
 /**
  * Deletes the reply that hast the specified id and also removes it from the thread it belongs to.
  * @param {*} id The id of the reply that should be deleted.
  */
-export async function DeleteReply(id) {
+const DeleteReply = async (id) => {
     await Reply.findByIdAndDelete(id)
         .then(async function (deletedReply) {
             await Thread.findById(deletedReply.thread_id)
@@ -68,4 +68,6 @@ export async function DeleteReply(id) {
         .catch(function (err) {
             console.log("DeleteReply failed: " + err);
         });
-}
+};
+
+export { CreateReply, DeleteReply };

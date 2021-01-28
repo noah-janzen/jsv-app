@@ -5,7 +5,7 @@ import { currentDateAndTime, getMidnightTimeFormat } from './shared.js';
 /**
  * Describes the different types of attendance responses of an event. 
  */
-export const AttendanceResponseType = {
+const AttendanceResponseType = {
     YES: 1,
     NO: 2,
     NOT_SURE: 3,
@@ -19,7 +19,7 @@ const Event = Mongoose.model("Event", eventSchema);
  * Retrieves all the currently available events.
  * @returns A JSON object containing all the events.
  */
-export async function GetEventOverview() {
+const GetEventOverview = async () => {
     return await Event
         .find({ "start_time": { "$gte": getMidnightTimeFormat(currentDateAndTime()) } }, "_id title location start_time number_of_yes number_of_no number_of_not_sure")
         .then(function (foundEvents) {
@@ -46,7 +46,7 @@ export async function GetEventOverview() {
             console.log("GetEventOverview failed: " + err);
             return "";
         });
-}
+};
 
 /**
  * Creates an event with the specified information.
@@ -58,7 +58,7 @@ export async function GetEventOverview() {
  * @param {*} is_public Whether the event is public or club-intern only.
  * @returns The newly created event as a JSON object. 
  */
-export async function CreateEvent(title, description, location, start_time, image_uri, is_public) {
+const CreateEvent = async (title, description, location, start_time, image_uri, is_public) => {
     return await Event
         .create({
             title: title,
@@ -91,26 +91,26 @@ export async function CreateEvent(title, description, location, start_time, imag
             console.log("CreateEvent failed: " + err)
             return "";
         });
-}
+};
 
 /**
  * Deletes the event that has the specified id.
  * @param {*} id The id of the event that should be deleted.
  */
-export async function DeleteEvent(id) {
+const DeleteEvent = async (id) => {
     await Event
         .findByIdAndDelete(id)
         .catch(function (err) {
             console.log("DeleteEvent failed: " + err);
         });
-}
+};
 
 /**
  * Retrieves the event with the specified id.
  * @param {*} id The id of the event that should be retrieved.
  * @returns The desired event as a JSON object.
  */
-export async function GetEvent(id) {
+const GetEvent = async (id) => {
     return await Event
         .findById(id)
         .then(function (foundEvent) {
@@ -136,14 +136,14 @@ export async function GetEvent(id) {
             console.log("GetEvent failed: " + err);
             return "";
         });
-}
+};
 
 /**
  * Returns an AttendanceResponseType based on the specified string.
  * @param {*} stringResponseType String representation of an AttendanceResponseType.
  * @returns An AttendanceResponseType that matches to the specified string.
  */
-export function GetAttendanceResponseType(stringResponseType) {
+const GetAttendanceResponseType = (stringResponseType) => {
     if (!stringResponseType) {
         return AttendanceResponseType.NONE;
     }
@@ -162,7 +162,7 @@ export function GetAttendanceResponseType(stringResponseType) {
                 return AttendanceResponseType.NONE;
         }
     }
-}
+};
 
 /**
  * Returns an update object required for a database query based on the specified AttendanceResponseTypes.
@@ -170,7 +170,7 @@ export function GetAttendanceResponseType(stringResponseType) {
  * @param {*} oldAttendance The old attendance status.
  * @returns An update object required for a database query based on the specified AttendanceResponseTypes.
  */
-function GetAttendanceResponseUpdateCriteria(newAttendance, oldAttendance) {
+const GetAttendanceResponseUpdateCriteria = (newAttendance, oldAttendance) => {
     // Based on the specified types, increment/decrement the attendance response values.
     switch (newAttendance) {
         case AttendanceResponseType.YES:
@@ -213,7 +213,7 @@ function GetAttendanceResponseUpdateCriteria(newAttendance, oldAttendance) {
             }
             break;
     }
-}
+};
 
 /**
  * Alters the number of a specific AttendanceResponseType of the event with the specified id.
@@ -222,7 +222,7 @@ function GetAttendanceResponseUpdateCriteria(newAttendance, oldAttendance) {
  * @param {*} oldAttendance New attendance status.
  * @returns The event with the updated attendance response values as a JSON object.
  */
-export async function AlterAttendanceResponse(id, newAttendance, oldAttendance) {
+const AlterAttendanceResponse = async (id, newAttendance, oldAttendance) => {
     if (newAttendance != oldAttendance) {
         return await Event
             .findByIdAndUpdate(id, GetAttendanceResponseUpdateCriteria(newAttendance, oldAttendance), { new: true })
@@ -250,4 +250,6 @@ export async function AlterAttendanceResponse(id, newAttendance, oldAttendance) 
                 return "";
             });
     }
-}
+};
+
+export { AttendanceResponseType, GetEventOverview, CreateEvent, DeleteEvent, GetEvent, GetAttendanceResponseType, AlterAttendanceResponse };
