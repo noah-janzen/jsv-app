@@ -119,7 +119,12 @@ export async function GetEvent(id) {
 }
 
 export function GetAttendanceResponseType(stringResponseType) {
-    return stringResponseType == "yes" ? AttendanceResponseType.YES : (stringResponseType == "no" ? AttendanceResponseType.NO : AttendanceResponseType.NOT_SURE);
+    if (!stringResponseType) {
+        return AttendanceResponseType.NONE;
+    }
+    else {
+        return stringResponseType == "yes" ? AttendanceResponseType.YES : (stringResponseType == "no" ? AttendanceResponseType.NO : AttendanceResponseType.NOT_SURE);
+    }
 }
 
 function GetAttendanceResponseUpdateCriteria(newAttendance, oldAttendance) {
