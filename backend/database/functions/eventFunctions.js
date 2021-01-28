@@ -95,7 +95,7 @@ export async function GetEvent(id) {
                 event: {
                     id: foundEvent._id,
                     title: foundEvent.title,
-                    date: foundEvent.date,
+                    date: foundEvent.start_time,
                     location: foundEvent.location,
                     attendance_responses: {
                         yes: foundEvent.number_of_yes,
