@@ -1,5 +1,6 @@
 import Mongoose from 'mongoose';
 import threadSchema from '../schemas/threadSchema.js'
+import { currentDateAndTime } from './shared.js';
 
 // Compile model from thread schema.
 const Thread = Mongoose.model("Thread", threadSchema);
@@ -40,7 +41,10 @@ export async function GetChatOverview() {
  */
 export async function CreateThread(message) {
     return await Thread
-        .create({ message: message })
+        .create({
+            message: message,
+            date: currentDateAndTime()
+        })
         .then(function (createdThread) {
             return JSON.stringify({
                 id: createdThread._id,

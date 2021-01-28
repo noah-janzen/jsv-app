@@ -17,7 +17,7 @@ const newsSchema = Mongoose.Schema({
     },
     date: {
         type: Date,
-        default: currentDateAndTime()
+        required: true
     }
 });
 

@@ -1,6 +1,7 @@
 import Mongoose from 'mongoose';
 import replySchema from '../schemas/replySchema.js'
 import threadSchema from '../schemas/threadSchema.js';
+import { currentDateAndTime } from './shared.js';
 
 // Compile model from reply schema.
 const Reply = Mongoose.model("Response", replySchema);
@@ -18,7 +19,8 @@ export async function CreateReply(thread_id, text) {
     return await Reply
         .create({
             text: text,
-            thread_id: thread_id
+            thread_id: thread_id,
+            date: currentDateAndTime()
         })
         .then(async function (createdReply) {
             return await Thread

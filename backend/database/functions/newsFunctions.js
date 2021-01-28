@@ -1,6 +1,7 @@
 import Mongoose from 'mongoose';
 import newsSchema from '../schemas/newsSchema.js'
 import globals from '../globals.js';
+import { currentDateAndTime } from './shared.js';
 
 // Compile model from news schema.
 const News = Mongoose.model("News", newsSchema);
@@ -47,7 +48,8 @@ export async function CreateNewsArticle(title, content, image_uri) {
         .create({
             title: title,
             content: content,
-            image_uri: image_uri
+            image_uri: image_uri,
+            date: currentDateAndTime()
         })
         .then(function (createdNewsArticle) {
             // Return news article as JSON.
