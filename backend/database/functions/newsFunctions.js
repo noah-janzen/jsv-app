@@ -1,8 +1,14 @@
 import Mongoose from 'mongoose';
 import newsSchema from '../schemas/newsSchema.js'
+import globals from '../globals.js';
 
+// Compile model from news schema.
 const News = Mongoose.model("News", newsSchema);
 
+/**
+ * Retrieves all the available news articles in descending order.
+ * @returns A JSON object containing all the news articles.
+ */
 export async function GetNewsFeed() {
     return await News
         .find({})
@@ -14,13 +20,11 @@ export async function GetNewsFeed() {
                 newsArticles.push({
                     id: newsArticle._id,
                     title: newsArticle.title,
-                    textSnippet: newsArticle.content.substring(0, 200),
+                    textSnippet: newsArticle.content.substring(0, globals.newsArticleTextSnippetCharacterNumber),
                     imgURI: newsArticle.image_uri,
                     date: newsArticle.date
                 })
             });
-
-            console.log("Successfully retrieved news feed");
 
             // Return news articles as JSON.
             return JSON.stringify({ newsListItems: newsArticles });
@@ -31,6 +35,13 @@ export async function GetNewsFeed() {
         });
 }
 
+/**
+ * Creates a n new news article with the specified information.
+ * @param {*} title A title describing the news article briefly.
+ * @param {*} content Content of the news article.
+ * @param {*} image_uri An URI to an image representing the news article.
+ * @returns The newly created news article as a JSON object.
+ */
 export async function CreateNewsArticle(title, content, image_uri) {
     return await News
         .create({
@@ -39,8 +50,6 @@ export async function CreateNewsArticle(title, content, image_uri) {
             image_uri: image_uri
         })
         .then(function (createdNewsArticle) {
-            console.log("Successfully created news article with id " + createdNewsArticle._id);
-
             // Return news article as JSON.
             return JSON.stringify({
                 id: createdNewsArticle.id,
@@ -56,21 +65,27 @@ export async function CreateNewsArticle(title, content, image_uri) {
         });
 }
 
+/**
+ * Deletes the news article that has the specified id.
+ * @param {*} id Id of the news article that should be deleted. 
+ */
 export async function DeleteNewsArticle(id) {
     await News
         .findByIdAndDelete(id)
-        .then(() => console.log("Successfully deleted news article with id " + id))
         .catch(function (err) {
             console.log("DeleteNewsArticle failed: " + err);
         });
 }
 
+/**
+ * Retrieves the news article that has the specified id.
+ * @param {*} id The id of the news article that should be retrieved.
+ * @returns The desired news article as a JSON object.
+ */
 export async function GetNewsArticle(id) {
     return await News
         .findById(id)
         .then(function (foundNewsArticle) {
-            console.log("Successfully retrieved news article with id " + foundNewsArticle._id);
-
             // Return news article as JSON.
             return JSON.stringify({
                 id: foundNewsArticle.id,

@@ -19,8 +19,8 @@ Content-Type: application/json
     "content": "Lorem ipsum dolor amet sinum. Lorem ipsum dolor amet sinum. Lorem ipsum dolor amet sinum. Lorem ipsum dolor amet sinum. Lorem ipsum dolor amet sinum. ",
     "image_uri": "https://www.jsv-huenxe.de/wp-content/uploads/2019/06/WhatsApp-Image-2019-06-04-at-18.52.29-624x495.jpeg"
 }
-
 ###
+
 // Get event overview.
 GET http://localhost:3000/api/events
 ###

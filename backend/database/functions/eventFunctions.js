@@ -2,6 +2,9 @@ import Mongoose from 'mongoose';
 import eventSchema from '../schemas/eventSchema.js';
 import { currentDateAndTime, getMidnightTimeFormat } from './shared.js';
 
+/**
+ * Describes the different types of attendance responses of an event. 
+ */
 export const AttendanceResponseType = {
     YES: 1,
     NO: 2,
@@ -9,8 +12,13 @@ export const AttendanceResponseType = {
     NONE: 4
 };
 
+// Compile model from event schema.
 const Event = Mongoose.model("Event", eventSchema);
 
+/**
+ * Retrieves all the currently available events.
+ * @returns A JSON object containing all the events.
+ */
 export async function GetEventOverview() {
     return await Event
         .find({ "start_time": { "$gte": getMidnightTimeFormat(currentDateAndTime()) } }, "_id title location start_time number_of_yes number_of_no number_of_not_sure")
@@ -31,8 +39,6 @@ export async function GetEventOverview() {
                 })
             });
 
-            console.log("Successfully retrieved event overview");
-
             // Return created events as JSON.
             return JSON.stringify({ eventListItems: events });
         })
@@ -42,6 +48,16 @@ export async function GetEventOverview() {
         });
 }
 
+/**
+ * Creates an event with the specified information.
+ * @param {*} title A title describing the event briefly.
+ * @param {*} description A description specifying details of the event.
+ * @param {*} location Where the event takes place.
+ * @param {*} start_time On which date and at which time the event takes place.
+ * @param {*} image_uri An URI to an image representing the event.
+ * @param {*} is_public Whether the event is public or club-intern only.
+ * @returns The newly created event as a JSON object. 
+ */
 export async function CreateEvent(title, description, location, start_time, image_uri, is_public) {
     return await Event
         .create({
@@ -53,8 +69,6 @@ export async function CreateEvent(title, description, location, start_time, imag
             is_public: is_public
         })
         .then(function (createdEvent) {
-            console.log("Successfully created event with id " + createdEvent._id);
-
             // Return created event as JSON.
             return JSON.stringify({
                 event: {
@@ -79,21 +93,27 @@ export async function CreateEvent(title, description, location, start_time, imag
         });
 }
 
+/**
+ * Deletes the event that has the specified id.
+ * @param {*} id The id of the event that should be deleted.
+ */
 export async function DeleteEvent(id) {
     await Event
-        .findByIdAndDelete()
-        .then(() => console.log("Successfully deleted event with id " + id))
+        .findByIdAndDelete(id)
         .catch(function (err) {
             console.log("DeleteEvent failed: " + err);
         });
 }
 
+/**
+ * Retrieves the event with the specified id.
+ * @param {*} id The id of the event that should be retrieved.
+ * @returns The desired event as a JSON object.
+ */
 export async function GetEvent(id) {
     return await Event
         .findById(id)
         .then(function (foundEvent) {
-            console.log("Successfully retrieved event with id " + foundEvent._id);
-
             // Return found event as JSON.
             return JSON.stringify({
                 event: {
@@ -118,16 +138,40 @@ export async function GetEvent(id) {
         });
 }
 
+/**
+ * Returns an AttendanceResponseType based on the specified string.
+ * @param {*} stringResponseType String representation of an AttendanceResponseType.
+ * @returns An AttendanceResponseType that matches to the specified string.
+ */
 export function GetAttendanceResponseType(stringResponseType) {
     if (!stringResponseType) {
         return AttendanceResponseType.NONE;
     }
     else {
-        return stringResponseType == "yes" ? AttendanceResponseType.YES : (stringResponseType == "no" ? AttendanceResponseType.NO : AttendanceResponseType.NOT_SURE);
+        switch (stringResponseType) {
+            case "yes":
+                return AttendanceResponseType.YES;
+
+            case "no":
+                return AttendanceResponseType.NO;
+
+            case "not_sure":
+                return AttendanceResponseType.NOT_SURE;
+
+            default:
+                return AttendanceResponseType.NONE;
+        }
     }
 }
 
+/**
+ * Returns an update object required for a database query based on the specified AttendanceResponseTypes.
+ * @param {*} newAttendance The new attendance status.
+ * @param {*} oldAttendance The old attendance status.
+ * @returns An update object required for a database query based on the specified AttendanceResponseTypes.
+ */
 function GetAttendanceResponseUpdateCriteria(newAttendance, oldAttendance) {
+    // Based on the specified types, increment/decrement the attendance response values.
     switch (newAttendance) {
         case AttendanceResponseType.YES:
             switch (oldAttendance) {
@@ -171,13 +215,18 @@ function GetAttendanceResponseUpdateCriteria(newAttendance, oldAttendance) {
     }
 }
 
+/**
+ * Alters the number of a specific AttendanceResponseType of the event with the specified id.
+ * @param {*} id Id of the event of which the attendance reponses should be altered.
+ * @param {*} newAttendance Old Attendance status.
+ * @param {*} oldAttendance New attendance status.
+ * @returns The event with the updated attendance response values as a JSON object.
+ */
 export async function AlterAttendanceResponse(id, newAttendance, oldAttendance) {
     if (newAttendance != oldAttendance) {
         return await Event
             .findByIdAndUpdate(id, GetAttendanceResponseUpdateCriteria(newAttendance, oldAttendance), { new: true })
             .then(function (updatedEvent) {
-                console.log("Successfully updated attendance responses of event with id " + id);
-
                 // Return updated event as JSON.
                 return JSON.stringify({
                     event: {
@@ -197,7 +246,8 @@ export async function AlterAttendanceResponse(id, newAttendance, oldAttendance) 
                 })
             })
             .catch(function (err) {
-
+                console.log("AlterAttendanceReponse failed: " + err);
+                return "";
             });
     }
 }

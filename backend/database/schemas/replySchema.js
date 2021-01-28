@@ -1,5 +1,7 @@
 import Mongoose from 'mongoose';
+import { currentDateAndTime } from '../functions/shared.js';
 
+// Describes a reply to a chat thread in the database.
 const replySchema = Mongoose.Schema({
     text: {
         type: String,
@@ -7,7 +9,7 @@ const replySchema = Mongoose.Schema({
     },
     date: {
         type: Date,
-        default: new Date()
+        default: currentDateAndTime()
     },
     thread_id: {
         type: Mongoose.ObjectId,

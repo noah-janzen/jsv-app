@@ -1,5 +1,6 @@
 import Mongoose from 'mongoose';
 
+// Describes an event in the database.
 const eventSchema = Mongoose.Schema({
     title: {
         type: String,

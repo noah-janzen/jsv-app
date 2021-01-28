@@ -4,17 +4,19 @@ import BodyParser from 'body-parser';
 import { GetNewsFeed, GetNewsArticle, CreateNewsArticle, DeleteNewsArticle } from "./database/functions/newsFunctions.js";
 import { AlterAttendanceResponse, CreateEvent, DeleteEvent, GetAttendanceResponseType, GetEvent, GetEventOverview } from "./database/functions/eventFunctions.js";
 import { CreateThread, GetChatOverview, GetThread } from "./database/functions/threadFunctions.js";
-import { CreateReply } from "./database/functions/replyFunctions.js";
+import { CreateReply, DeleteReply } from "./database/functions/replyFunctions.js";
 
-const app = Express();
-
-// Server configuration.
+// Server port.
 const port = 3000;
-// Database configuration.
+
+// Connection string to connect to database.
 const connectionString = "mongodb+srv://jsv-app-admin:jsvAppAdmin2021@mycluster.zrta6.mongodb.net/jsv-app?retryWrites=true&w=majority";
 
 // Connect to the database.
 Mongoose.connect(connectionString, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false });
+
+// Get express server functionality.
+const app = Express();
 
 // Use body parser.
 app.use(BodyParser.json());
@@ -26,21 +28,28 @@ app.get("/", (req, res) => {
 
 // Get news feed overview.
 app.get("/api/news", async (req, res) => {
+    // Set content type to application/json.
     res.type("json");
+
+    // Retrieve news feed and send it as response.
     res.send(await GetNewsFeed());
 })
 
 // Get news article.
 app.get("/api/news/:id", async (req, res) => {
+    // Set content type to application/json.
     res.type("json");
-    res.send(await GetNewsArticle(req.params.id.toString()));
+
+    // Retrieve news article that has the specified id and send it as response.
+    res.send(await GetNewsArticle(req.params.id));
 })
 
 // Create news article.
 app.post("/api/news/create", async (req, res) => {
+    // Set content type to application/json.
     res.type("json");
 
-    // Create new news article.
+    // Create new news article with the information specified in the request's body.
     var newNewsArticle = await CreateNewsArticle(req.body.title, req.body.content, req.body.image_uri);
 
     // Send created news article as JSON.
@@ -49,26 +58,34 @@ app.post("/api/news/create", async (req, res) => {
 
 // Delete news article.
 app.get("/api/news/delete/:id", async (req, res) => {
+    // Set content type to application/json.
     res.type("json");
 
-    // Delete news article that has the given id.
-    await DeleteNewsArticle(req.params.id.toString());
+    // Delete news article that has the specified id.
+    await DeleteNewsArticle(req.params.id);
 })
 
 // Get event overview.
 app.get("/api/events", async (req, res) => {
+    // Set content type to application/json.
     res.type("json");
+
+    // Retrieve events and send it as response.
     res.send(await GetEventOverview());
 })
 
 // Get event.
 app.get("/api/events/:id", async (req, res) => {
+    // Set content type to application/json.
     res.type("json");
-    res.send(await GetEvent(req.params.id.toString()));
+
+    // Retrieve event that has the specified id and send it as response.
+    res.send(await GetEvent(req.params.id));
 })
 
 // Create event.
 app.post("/api/events/create", async (req, res) => {
+    // Set content type to application/json.
     res.type("json");
 
     // Create new event.
@@ -80,19 +97,21 @@ app.post("/api/events/create", async (req, res) => {
 
 // Delete event.
 app.get("/api/events/delete/:id", async (req, res) => {
+    // Set content type to application/json.
     res.type("json");
 
-    // Delete event with specified id.
-    await DeleteEvent(req.params.id.toString());
+    // Delete event that has the specified id.
+    await DeleteEvent(req.params.id);
 })
 
 // Alter attendance response.
 app.post("/api/events/attendance", async (req, res) => {
+    // Set content type to application/json.
     res.type("json");
 
     console.log(req.body);
 
-    // Update attendance response of event.
+    // Update attendance response of event with the information contained in the request's body.
     var updatedEvent = await AlterAttendanceResponse(req.body.event_id,
         GetAttendanceResponseType(req.body.attendance), GetAttendanceResponseType(req.body.old_attendance));
 
@@ -102,18 +121,25 @@ app.post("/api/events/attendance", async (req, res) => {
 
 // Get chat overview.
 app.get("/api/chat", async (req, res) => {
+    // Set content type to application/json.
     res.type("json");
+
+    // Retrieve the chat threads and send them as response.
     res.send(await GetChatOverview());
 })
 
 // Get thread.
 app.get("/api/chat/:id", async (req, res) => {
+    // Set content type to application/json.
     res.type("json");
-    res.send(await GetThread(req.params.id.toString()));
+
+    // Retrieve thread that has the specified id and send it as response.
+    res.send(await GetThread(req.params.id));
 })
 
 // Create thread.
 app.post("/api/chat/create", async (req, res) => {
+    // Set content type to application/json.
     res.type("json");
 
     // Create thread.
@@ -125,18 +151,17 @@ app.post("/api/chat/create", async (req, res) => {
 
 // Delete thread.
 app.get("/api/chat/delete/:id", async (req, res) => {
-    res.type("json");
-
-    // Delete thread with specified id.
-    await DeleteThread(req.params.id.toString());
+    // Delete thread that has the specified id.
+    await DeleteThread(req.params.id);
 })
 
 // Create reply.
 app.post("/api/chat/reply/:id", async (req, res) => {
+    // Set content type to application/json.
     res.type("json");
 
     // Create reply for thread in database.
-    var createdReply = await CreateReply(req.params.id.toString(), req.body.reply_text);
+    var createdReply = await CreateReply(req.params.id, req.body.reply_text);
 
     // Send created reply as JSON.
     res.send(createdReply);
@@ -144,13 +169,12 @@ app.post("/api/chat/reply/:id", async (req, res) => {
 
 // Delete reply.
 app.get("/api/chat/reply/delete/:id", async (req, res) => {
-    res.type("json");
-
-    // Delete reply with specified id.
-    await DeleteReply(req.params.id.toString());
+    // Delete reply that has the specified id.
+    await DeleteReply(req.params.id);
 })
 
 // Start listening on port.
 app.listen(port, () => {
-    console.log("Server started, listening on localhost:" + port);
+    // Display a message to indicate start of listening process.
+    console.log("JSV-App server started, listening on localhost:" + port);
 })

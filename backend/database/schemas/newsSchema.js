@@ -1,5 +1,7 @@
 import Mongoose from 'mongoose';
+import { currentDateAndTime } from '../functions/shared.js';
 
+// Describes a news article in the database.
 const newsSchema = Mongoose.Schema({
     title: {
         type: String,
@@ -15,7 +17,7 @@ const newsSchema = Mongoose.Schema({
     },
     date: {
         type: Date,
-        default: new Date()
+        default: currentDateAndTime()
     }
 });
 
