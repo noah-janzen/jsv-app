@@ -174,7 +174,7 @@ function GetAttendanceResponseUpdateCriteria(newAttendance, oldAttendance) {
 export async function AlterAttendanceResponse(id, newAttendance, oldAttendance) {
     if (newAttendance != oldAttendance) {
         return await Event
-            .findByIdAndUpdate(id, GetAttendanceResponseUpdateCriteria(newAttendance, oldAttendance), {})
+            .findByIdAndUpdate(id, GetAttendanceResponseUpdateCriteria(newAttendance, oldAttendance), { new: true })
             .then(function (updatedEvent) {
                 console.log("Successfully updated attendance responses of event with id " + id);
 

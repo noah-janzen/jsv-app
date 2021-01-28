@@ -14,7 +14,7 @@ const port = 3000;
 const connectionString = "mongodb+srv://jsv-app-admin:jsvAppAdmin2021@mycluster.zrta6.mongodb.net/jsv-app?retryWrites=true&w=majority";
 
 // Connect to the database.
-Mongoose.connect(connectionString, { useNewUrlParser: true, useUnifiedTopology: true });
+Mongoose.connect(connectionString, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false });
 
 // Use body parser.
 app.use(BodyParser.json());
@@ -39,10 +39,6 @@ app.get("/api/news/:id", async (req, res) => {
 // Create news article.
 app.post("/api/news/create", async (req, res) => {
     res.type("json");
-
-    console.log(req.body.title);
-    console.log(req.body.content);
-    console.log(req.body.image_uri);
 
     // Create new news article.
     var newNewsArticle = await CreateNewsArticle(req.body.title, req.body.content, req.body.image_uri);
@@ -93,6 +89,8 @@ app.get("/api/events/delete/:id", async (req, res) => {
 // Alter attendance response.
 app.post("/api/events/attendance", async (req, res) => {
     res.type("json");
+
+    console.log(req.body);
 
     // Update attendance response of event.
     var updatedEvent = await AlterAttendanceResponse(req.body.event_id,

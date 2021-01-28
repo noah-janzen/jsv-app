@@ -15,8 +15,8 @@ POST http://localhost:3000/api/news/create
 Content-Type: application/json
 
 {
-    "title": "Die JSV-APP wurde gelauncht!",
-    "content": "Es ist endlich soweit. Die JSV-APP wurde gelauncht. Ihr könnt sie euch im App-Store runterladen!",
+    "title": "Test-News!!!",
+    "content": "Lorem ipsum dolor amet sinum. Lorem ipsum dolor amet sinum. Lorem ipsum dolor amet sinum. Lorem ipsum dolor amet sinum. Lorem ipsum dolor amet sinum. ",
     "image_uri": "https://www.jsv-huenxe.de/wp-content/uploads/2019/06/WhatsApp-Image-2019-06-04-at-18.52.29-624x495.jpeg"
 }
 
@@ -40,6 +40,16 @@ Content-Type: application/json
     "start_time": "2021-04-03T18:30:00.000+00:00",
     "image_uri": "https://www.jsv-huenxe.de/wp-content/uploads/2020/01/IMG_8515.jpg",
     "is_public": true
+}
+###
+
+// Alter attendance response for event.
+POST http://localhost:3000/api/events/attendance
+Content-Type: application/json
+
+{
+    "event_id": "6012a25056154d304487561f",
+    "attendance": "yes"    
 }
 ###
 
