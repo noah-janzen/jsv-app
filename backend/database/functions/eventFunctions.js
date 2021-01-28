@@ -19,7 +19,7 @@ const Event = Mongoose.model("Event", eventSchema);
  * Retrieves all the currently available events.
  * @returns A JSON object containing all the events.
  */
-const GetEventOverview = async () => {
+const getEventOverview = async () => {
     return await Event
         .find({ "start_time": { "$gte": getMidnightTimeFormat(currentDateAndTime()) } }, "_id title location start_time number_of_yes number_of_no number_of_not_sure")
         .then(function (foundEvents) {
@@ -43,7 +43,7 @@ const GetEventOverview = async () => {
             return JSON.stringify({ eventListItems: events });
         })
         .catch(function (err) {
-            console.log("GetEventOverview failed: " + err);
+            console.log("getEventOverview failed: " + err);
             return "";
         });
 };
@@ -58,7 +58,7 @@ const GetEventOverview = async () => {
  * @param {*} is_public Whether the event is public or club-intern only.
  * @returns The newly created event as a JSON object. 
  */
-const CreateEvent = async (title, description, location, start_time, image_uri, is_public) => {
+const createEvent = async (title, description, location, start_time, image_uri, is_public) => {
     return await Event
         .create({
             title: title,
@@ -88,7 +88,7 @@ const CreateEvent = async (title, description, location, start_time, image_uri, 
             });
         })
         .catch(function (err) {
-            console.log("CreateEvent failed: " + err)
+            console.log("createEvent failed: " + err)
             return "";
         });
 };
@@ -97,11 +97,11 @@ const CreateEvent = async (title, description, location, start_time, image_uri, 
  * Deletes the event that has the specified id.
  * @param {*} id The id of the event that should be deleted.
  */
-const DeleteEvent = async (id) => {
+const deleteEvent = async (id) => {
     await Event
         .findByIdAndDelete(id)
         .catch(function (err) {
-            console.log("DeleteEvent failed: " + err);
+            console.log("deleteEvent failed: " + err);
         });
 };
 
@@ -110,7 +110,7 @@ const DeleteEvent = async (id) => {
  * @param {*} id The id of the event that should be retrieved.
  * @returns The desired event as a JSON object.
  */
-const GetEvent = async (id) => {
+const getEvent = async (id) => {
     return await Event
         .findById(id)
         .then(function (foundEvent) {
@@ -133,7 +133,7 @@ const GetEvent = async (id) => {
             });
         })
         .catch(function (err) {
-            console.log("GetEvent failed: " + err);
+            console.log("getEvent failed: " + err);
             return "";
         });
 };
@@ -143,7 +143,7 @@ const GetEvent = async (id) => {
  * @param {*} stringResponseType String representation of an AttendanceResponseType.
  * @returns An AttendanceResponseType that matches to the specified string.
  */
-const GetAttendanceResponseType = (stringResponseType) => {
+const getAttendanceResponseType = (stringResponseType) => {
     if (!stringResponseType) {
         return AttendanceResponseType.NONE;
     }
@@ -170,7 +170,7 @@ const GetAttendanceResponseType = (stringResponseType) => {
  * @param {*} oldAttendance The old attendance status.
  * @returns An update object required for a database query based on the specified AttendanceResponseTypes.
  */
-const GetAttendanceResponseUpdateCriteria = (newAttendance, oldAttendance) => {
+const getAttendanceResponseUpdateCriteria = (newAttendance, oldAttendance) => {
     // Based on the specified types, increment/decrement the attendance response values.
     switch (newAttendance) {
         case AttendanceResponseType.YES:
@@ -222,10 +222,10 @@ const GetAttendanceResponseUpdateCriteria = (newAttendance, oldAttendance) => {
  * @param {*} oldAttendance New attendance status.
  * @returns The event with the updated attendance response values as a JSON object.
  */
-const AlterAttendanceResponse = async (id, newAttendance, oldAttendance) => {
+const alterAttendanceResponse = async (id, newAttendance, oldAttendance) => {
     if (newAttendance != oldAttendance) {
         return await Event
-            .findByIdAndUpdate(id, GetAttendanceResponseUpdateCriteria(newAttendance, oldAttendance), { new: true })
+            .findByIdAndUpdate(id, getAttendanceResponseUpdateCriteria(newAttendance, oldAttendance), { new: true })
             .then(function (updatedEvent) {
                 // Return updated event as JSON.
                 return JSON.stringify({
@@ -252,4 +252,4 @@ const AlterAttendanceResponse = async (id, newAttendance, oldAttendance) => {
     }
 };
 
-export { AttendanceResponseType, GetEventOverview, CreateEvent, DeleteEvent, GetEvent, GetAttendanceResponseType, AlterAttendanceResponse };
+export { AttendanceResponseType, getEventOverview, createEvent, deleteEvent, getEvent, getAttendanceResponseType, alterAttendanceResponse };

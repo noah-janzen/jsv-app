@@ -10,7 +10,7 @@ const News = Mongoose.model("News", newsSchema);
  * Retrieves all the available news articles in descending order.
  * @returns A JSON object containing all the news articles.
  */
-const GetNewsFeed = async () => {
+const getNewsFeed = async () => {
     return await News
         .find({})
         .sort({ date: 'desc' })
@@ -31,7 +31,7 @@ const GetNewsFeed = async () => {
             return JSON.stringify({ newsListItems: newsArticles });
         })
         .catch(function (err) {
-            console.log("GetNewsFeed failed: " + err);
+            console.log("getNewsFeed failed: " + err);
             return "";
         });
 };
@@ -43,7 +43,7 @@ const GetNewsFeed = async () => {
  * @param {*} image_uri An URI to an image representing the news article.
  * @returns The newly created news article as a JSON object.
  */
-const CreateNewsArticle = async (title, content, image_uri) => {
+const createNewsArticle = async (title, content, image_uri) => {
     return await News
         .create({
             title: title,
@@ -62,7 +62,7 @@ const CreateNewsArticle = async (title, content, image_uri) => {
             });
         })
         .catch(function (err) {
-            console.log("CreateNewsArticle failed: " + err);
+            console.log("createNewsArticle failed: " + err);
             return "";
         });
 };
@@ -71,7 +71,7 @@ const CreateNewsArticle = async (title, content, image_uri) => {
  * Deletes the news article that has the specified id.
  * @param {*} id Id of the news article that should be deleted. 
  */
-const DeleteNewsArticle = async (id) => {
+const deleteNewsArticle = async (id) => {
     await News
         .findByIdAndDelete(id)
         .catch(function (err) {
@@ -84,7 +84,7 @@ const DeleteNewsArticle = async (id) => {
  * @param {*} id The id of the news article that should be retrieved.
  * @returns The desired news article as a JSON object.
  */
-const GetNewsArticle = async (id) => {
+const getNewsArticle = async (id) => {
     return await News
         .findById(id)
         .then(function (foundNewsArticle) {
@@ -98,9 +98,9 @@ const GetNewsArticle = async (id) => {
             });
         })
         .catch(function (err) {
-            console.log("GetNewsArticle failed: " + err);
+            console.log("getNewsArticle failed: " + err);
             return "";
         });
 };
 
-export { GetNewsFeed, CreateNewsArticle, DeleteNewsArticle, GetNewsArticle };
+export { getNewsFeed, createNewsArticle, deleteNewsArticle, getNewsArticle };

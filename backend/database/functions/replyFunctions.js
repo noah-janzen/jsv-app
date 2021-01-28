@@ -15,7 +15,7 @@ const Thread = Mongoose.model("Thread", threadSchema);
  * @param {*} text The created reply's text.
  * @returns The newly created reply as a JSON object.
  */
-const CreateReply = async (thread_id, text) => {
+const createReply = async (thread_id, text) => {
     return await Reply
         .create({
             text: text,
@@ -38,12 +38,12 @@ const CreateReply = async (thread_id, text) => {
                     });
                 })
                 .catch(function (err) {
-                    console.log("CreateReply failed: " + err);
+                    console.log("createReply failed: " + err);
                     return "";
                 });
         })
         .catch(function (err) {
-            console.log("CreateReply failed: " + err);
+            console.log("createReply failed: " + err);
             return "";
         });
 };
@@ -52,7 +52,7 @@ const CreateReply = async (thread_id, text) => {
  * Deletes the reply that hast the specified id and also removes it from the thread it belongs to.
  * @param {*} id The id of the reply that should be deleted.
  */
-const DeleteReply = async (id) => {
+const deleteReply = async (id) => {
     await Reply.findByIdAndDelete(id)
         .then(async function (deletedReply) {
             await Thread.findById(deletedReply.thread_id)
@@ -62,12 +62,12 @@ const DeleteReply = async (id) => {
                     foundThread.save();
                 })
                 .catch(function (err) {
-                    console.log("DeleteReply failed: " + err);
+                    console.log("deleteReply failed: " + err);
                 });
         })
         .catch(function (err) {
-            console.log("DeleteReply failed: " + err);
+            console.log("deleteReply failed: " + err);
         });
 };
 
-export { CreateReply, DeleteReply };
+export { createReply, deleteReply };

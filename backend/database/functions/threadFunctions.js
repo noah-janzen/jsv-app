@@ -9,7 +9,7 @@ const Thread = Mongoose.model("Thread", threadSchema);
  * Retrieves all the currently available chat threads in descenfing order.
  * @returns A JSON object containing all the chat threads.
  */
-const GetChatOverview = async () => {
+const getChatOverview = async () => {
     return await Thread
         .find({})
         .sort({ date: 'desc' })
@@ -29,7 +29,7 @@ const GetChatOverview = async () => {
             return JSON.stringify({ threadListItems: threads });
         })
         .catch(function (err) {
-            console.log("GetChatOverview failed: " + err);
+            console.log("getChatOverview failed: " + err);
             return "";
         });
 };
@@ -39,7 +39,7 @@ const GetChatOverview = async () => {
  * @param {*} message The new chat thread's message.
  * @returns The newly created chat thread as a JSON object.
  */
-const CreateThread = async (message) => {
+const createThread = async (message) => {
     return await Thread
         .create({
             message: message,
@@ -55,7 +55,7 @@ const CreateThread = async (message) => {
             });
         })
         .catch(function (err) {
-            console.log("CreateThread failed: " + err);
+            console.log("createThread failed: " + err);
             return "";
         });
 };
@@ -64,11 +64,11 @@ const CreateThread = async (message) => {
  * Deletes the chat thread that has the specified id.
  * @param {*} id The id of the chat thread that should be deleted.
  */
-const DeleteThread = async (id) => {
+const deleteThread = async (id) => {
     return await Thread
         .deleteOne({ _id: id })
         .catch(function (err) {
-            console.log("DeleteThread failed: " + err);
+            console.log("deleteThread failed: " + err);
         });
 };
 
@@ -77,7 +77,7 @@ const DeleteThread = async (id) => {
  * @param {} id Id of the desired chat thread.
  * @returns The desired chat thread as a JSON object.
  */
-const GetThread = async (id) => {
+const getThread = async (id) => {
     return await Thread
         .findById(id)
         .then(function (foundThread) {
@@ -101,9 +101,9 @@ const GetThread = async (id) => {
             });
         })
         .catch(function (err) {
-            console.log("GetThread failed: " + err);
+            console.log("getThread failed: " + err);
             return "";
         });
 };
 
-export { GetChatOverview, CreateThread, DeleteThread, GetThread };
+export { getChatOverview, createThread, deleteThread, getThread };
