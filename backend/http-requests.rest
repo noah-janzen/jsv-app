@@ -7,7 +7,11 @@ GET http://localhost:3000/api/news
 ###
 
 // Get a news article.
-GET http://localhost:3000/api/news/600a776b80184306ecaad665
+GET http://localhost:3000/api/news/:id
+###
+
+// Delete a news article.
+GET http://localhost:3000/api/news/delete/:id
 ###
 
 // Create a new news article.
@@ -15,9 +19,10 @@ POST http://localhost:3000/api/news/create
 Content-Type: application/json
 
 {
-    "title": "Test-News!!!",
-    "content": "Lorem ipsum dolor amet sinum. Lorem ipsum dolor amet sinum. Lorem ipsum dolor amet sinum. Lorem ipsum dolor amet sinum. Lorem ipsum dolor amet sinum. ",
-    "image_uri": "https://www.jsv-huenxe.de/wp-content/uploads/2019/06/WhatsApp-Image-2019-06-04-at-18.52.29-624x495.jpeg"
+    "title": "",
+    "content": "",
+    "image_uri": "",
+    "date": ""
 }
 ###
 
@@ -26,7 +31,7 @@ GET http://localhost:3000/api/events
 ###
 
 // Get an event.
-GET http://localhost:3000/api/events/600a7c4957b6f62fe8b53ea8
+GET http://localhost:3000/api/events/:id
 ###
 
 // Create a new event.
@@ -34,11 +39,11 @@ POST http://localhost:3000/api/events/create
 Content-Type: application/json
 
 {
-    "title": "Vorstellung der JSV-APP",
-    "description": "Es ist endlich soweit: Die JSV-APP ist fertiggestellt! Bei diesem Event stellen wir euch die neue App vor.",
-    "location": "STV Vereinsheim",
-    "start_time": "2021-04-03T18:30:00.000+00:00",
-    "image_uri": "https://www.jsv-huenxe.de/wp-content/uploads/2020/01/IMG_8515.jpg",
+    "title": "",
+    "description": "",
+    "location": "",
+    "start_time": "",
+    "image_uri": "",
     "is_public": true
 }
 ###
@@ -48,9 +53,14 @@ POST http://localhost:3000/api/events/attendance
 Content-Type: application/json
 
 {
-    "event_id": "6012a25056154d304487561f",
-    "attendance": "yes"    
+    "event_id": "",
+    "attendance": "",
+    "old_attendance": ""
 }
+###
+
+// Delete an event.
+GET http://localhost:3000/api/events/delete/:id
 ###
 
 // Get the chat overview.
@@ -58,5 +68,5 @@ GET http://localhost:3000/api/chat
 ###
 
 // Get a thread.
-GET http://localhost:3000/api/chat/600a8146b5612f27e492a49a
+GET http://localhost:3000/api/chat/:id
 ###
