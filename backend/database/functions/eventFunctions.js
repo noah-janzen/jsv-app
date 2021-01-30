@@ -1,6 +1,6 @@
 import Mongoose from 'mongoose';
 import eventSchema from '../schemas/eventSchema.js';
-import { currentDateAndTime, getMidnightTimeFormat } from './shared.js';
+import { currentDateAndTime, getMidnightTimeFormat, getNextYearPeriod } from './shared.js';
 
 /**
  * Describes the different types of attendance responses of an event. 
@@ -21,7 +21,12 @@ const Event = Mongoose.model("Event", eventSchema);
  */
 const getEventOverview = async () => {
     return await Event
-        .find({ "start_time": { "$gte": getMidnightTimeFormat(currentDateAndTime()) } }, "_id title location start_time number_of_yes number_of_no number_of_not_sure")
+        .find({
+            "start_time": {
+                "$gte": getMidnightTimeFormat(currentDateAndTime()), "$lt": getNextYearPeriod(currentDateAndTime())
+            }
+        }, "_id title location start_time number_of_yes number_of_no number_of_not_sure")
+        .sort({ start_time: 'asc' })
         .then(function (foundEvents) {
             // Construct array of events.
             var events = [];

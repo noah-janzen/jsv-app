@@ -16,4 +16,17 @@ const currentDateAndTime = () => {
     return new Date();
 }
 
-export { getMidnightTimeFormat, currentDateAndTime };
+/**
+ * Returns the date that represents the last day eleven months ahead.
+ * @param {*} date The date on which the period shoudl be based on.
+ */
+const getNextYearPeriod = (date) => {
+    date.setMonth(date.getMonth() + 11);
+
+    var lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0);
+    lastDay.setHours(23, 59, 59, 999);
+
+    return lastDay;
+}
+
+export { getMidnightTimeFormat, currentDateAndTime, getNextYearPeriod };
