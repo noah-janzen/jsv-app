@@ -105,14 +105,14 @@ app.get("/api/events/delete/:id", async (req, res) => {
 })
 
 // Alter attendance response.
-app.post("/api/events/attendance", async (req, res) => {
+app.post("/api/events/:id/attendance", async (req, res) => {
     // Set content type to application/json.
     res.type("json");
 
     console.log(req.body);
 
     // Update attendance response of event with the information contained in the request's body.
-    var updatedEvent = await alterAttendanceResponse(req.body.event_id,
+    var updatedEvent = await alterAttendanceResponse(req.params.id,
         getAttendanceResponseType(req.body.attendance), getAttendanceResponseType(req.body.old_attendance));
 
     // Send updated event as JSON.
