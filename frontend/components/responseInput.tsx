@@ -40,7 +40,7 @@ export default function ResponseInput({handler}) {
                 multiline
             />
 
-            <Pressable onPress={pressHandler} style={{ marginBottom: 2}} disabled={sendDisabled}>
+            <Pressable onPress={pressHandler} style={{ marginBottom: 7}} disabled={sendDisabled}>
                 <Ionicons size={20} name={'send'} color={sendDisabled ? '#999' : colors.jsvMainGreen } />
             </Pressable>
 
@@ -68,10 +68,15 @@ const styles = StyleSheet.create({
         borderColor: '#ccc',
         borderWidth: 1,
         borderRadius: 4,
-        paddingLeft: 4,
-        paddingRight: 4,
-        paddingTop: 3,
-        paddingBottom: 3,
+
+        paddingLeft: 6,
+        paddingRight: 6,
+        paddingTop: 6,
+        paddingBottom: 8,
+        
+        minHeight: 34,
+        fontSize: 16,
+        lineHeight: 20,
         alignSelf: 'stretch',
         flex: 1,
         marginRight: 10
