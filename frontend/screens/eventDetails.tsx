@@ -45,8 +45,11 @@ export function EventDetails({ navigation }) {
 
     // update attendance
     const updateAttendanceStatusHandler = (newAttendanceStatus: string) => {
+        if(attendanceStatus === newAttendanceStatus) {
+            return;
+        }
+
         let old_attendance = attendanceStatus;
-        storeData(navigation.getParam('id'), newAttendanceStatus);
 
         fetch(postUrl, {
             method: 'POST',
@@ -56,7 +59,10 @@ export function EventDetails({ navigation }) {
                 old_attendance: old_attendance === '' ? undefined : old_attendance
             })
         })
-            .then(() => setAttendanceStatus(newAttendanceStatus))
+            .then(() => {
+                setAttendanceStatus(newAttendanceStatus);
+                storeData(navigation.getParam('id'), newAttendanceStatus);
+            })
             .finally(() => onRefresh());
     }
 
