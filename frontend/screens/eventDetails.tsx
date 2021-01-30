@@ -10,14 +10,16 @@ import { EventInfoListPoint } from '../components/eventInfoListPoint';
 import globalObjects from '../globalObjects/globalObjects';
 import { PostAttendanceButton } from '../components/postAttendanceButton';
 import { getDateTimeString } from '../globalObjects/dateAndTimeFunctions';
+import { getData, storeData } from '../globalObjects/storageFunctions';
 
 export function EventDetails({ navigation }) {
     const [isLoading, setLoading] = useState(false);
     const [event, setEvent] = useState({ id: "0", title: "", date: "", location: "", attendance_responses: { yes: 0, no: 0, not_sure: 0 }, public: "", description: "", imgURI: "../assets/jsv-img.png" });
     const [refreshing, setRefreshing] = useState(false);
-    const [attendanceStatus, setAttendanceStatus] = useState(undefined);
+    const [attendanceStatus, setAttendanceStatus] = useState('');
 
     let requestUrl = globalObjects.serverURL + '/events/' + navigation.getParam('id');
+    let postUrl = globalObjects.serverURL + '/events/' + navigation.getParam('id') + '/attendance';
 
     // load initially the news events from server
     useEffect(() => {
@@ -26,6 +28,9 @@ export function EventDetails({ navigation }) {
             .then((json) => setEvent(json.event))
             .catch((error) => console.error(error))
             .finally(() => setLoading(false));
+        
+        getData(navigation.getParam('id'))
+            .then(attendanceStatus => setAttendanceStatus(attendanceStatus));
     }, []);
 
     // pull to refresh function
@@ -40,19 +45,19 @@ export function EventDetails({ navigation }) {
 
     // update attendance
     const updateAttendanceStatusHandler = (newAttendanceStatus: string) => {
-        console.log('update attendance ' + newAttendanceStatus);
+        let old_attendance = attendanceStatus;
+        storeData(navigation.getParam('id'), newAttendanceStatus);
 
-        // attendance status is changed
-        if (attendanceStatus != undefined && attendanceStatus != newAttendanceStatus) {
-            // remove old status
-            event.attendance_responses[attendanceStatus] -= 1;
-        }
-        // 
-        if (attendanceStatus != newAttendanceStatus) {
-            event.attendance_responses[newAttendanceStatus] += 1;
-        }
-
-        setAttendanceStatus(newAttendanceStatus);
+        fetch(postUrl, {
+            method: 'POST',
+            headers: globalObjects.globalHeader.headers,
+            body: JSON.stringify({
+                attendance: newAttendanceStatus,
+                old_attendance: old_attendance === '' ? undefined : old_attendance
+            })
+        })
+            .then(() => setAttendanceStatus(newAttendanceStatus))
+            .finally(() => onRefresh());
     }
 
     return (
@@ -101,17 +106,20 @@ export function EventDetails({ navigation }) {
                     labelText={'Zusage'}
                     pressHandler={updateAttendanceStatusHandler}
                     attendanceStatus={'yes'}
-                    bgColor={'#27AE60'} />
+                    bgColor={'#27AE60'}
+                    isSelected={attendanceStatus === 'yes'} />
                 <PostAttendanceButton
                     labelText={'Absage'}
                     pressHandler={updateAttendanceStatusHandler}
                     attendanceStatus={'no'}
-                    bgColor={'#C0392B'} />
+                    bgColor={'#C0392B'}
+                    isSelected={attendanceStatus === 'no'} />
                 <PostAttendanceButton
                     labelText={'Weiß nicht'}
                     pressHandler={updateAttendanceStatusHandler}
                     attendanceStatus={'not_sure'}
-                    bgColor={'#F39C12'} />
+                    bgColor={'#F39C12'}
+                    isSelected={attendanceStatus === 'not_sure'} />
             </View>
 
 
