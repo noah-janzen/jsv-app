@@ -61,7 +61,7 @@ export function Thread({ navigation }) {
                     data={thread.responses}
                     extraData={numberOfAnswers}
                     refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
-                    renderItem={({ item }) => <ChatBubble text={item.text} date={item.date} />}
+                    renderItem={({ item, index }) => <ChatBubble text={item.text} date={item.date} isFirstElement={index === 0} isLastElement={index === thread.responses.length - 1} />}
                 // refreshControl
                 />
             )}

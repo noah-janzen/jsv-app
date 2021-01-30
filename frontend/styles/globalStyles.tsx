@@ -32,9 +32,10 @@ const globalStyles = {
     chatBubble: {
         backgroundColor: colors.jsvChatBubbleBackground,
         borderRadius: 5,
-        marginTop: 16,
+        marginTop: 8,
         marginLeft: 32,
         marginRight: 16,
+        marginBottom: 8,
         padding: 16,
         shadowColor: "#000",
         shadowOpacity: 0.01,

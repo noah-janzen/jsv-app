@@ -20,9 +20,7 @@ export default function ResponseInput({handler}) {
     };
 
     const checkTextLength = (text) => {
-        if(text.length > 0) {
-            setSendDisabled(false);
-        }
+        setSendDisabled(text.length === 0);
     }
 
     return (
@@ -40,7 +38,7 @@ export default function ResponseInput({handler}) {
                 multiline
             />
 
-            <Pressable onPress={pressHandler} style={{ marginBottom: 7}} disabled={sendDisabled}>
+            <Pressable onPress={pressHandler} style={{ marginBottom: 10}} disabled={sendDisabled}>
                 <Ionicons size={20} name={'send'} color={sendDisabled ? '#999' : colors.jsvMainGreen } />
             </Pressable>
 
@@ -74,7 +72,7 @@ const styles = StyleSheet.create({
         paddingTop: 6,
         paddingBottom: 8,
         
-        minHeight: 34,
+        minHeight: 40,
         fontSize: 16,
         lineHeight: 20,
         alignSelf: 'stretch',
