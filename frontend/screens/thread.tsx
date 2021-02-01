@@ -7,25 +7,25 @@ import globalObjects from '../globalObjects/globalObjects';
 import globalStyles from '../styles/globalStyles';
 
 export function Thread({ navigation }) {
-    let id = navigation.getParam('id');
-    let requestUrl = globalObjects.serverURL + '/chat/' + id;
-    let postUrl = globalObjects.serverURL + '/chat/reply/' + id;
-
     const [isLoading, setLoading] = useState(false);
+    const [isRefreshing, setRefreshing] = useState(false);
     const [thread, setThread] = useState({ id: "0", text: "", date: "", number_of_answers: 0, responses: [{ id: "0", text: "", date: "" }] });
-    const [refreshing, setRefreshing] = useState(false);
     const [numberOfAnswers, setNumberOfAnswers] = useState(0);
 
+    let threadId = navigation.getParam('id');
+    let requestUrl = globalObjects.serverURL + '/chat/' + threadId;
+    let postUrl = globalObjects.serverURL + '/chat/reply/' + threadId;
 
+    // initially load the thread
     useEffect(() => {
         fetch(requestUrl, globalObjects.globalHeader)
             .then(response => response.json())
-            .then(json => { console.log(json); setThread(json); })
+            .then(json => setThread(json))
             .catch(error => console.error(error))
             .finally(() => setLoading(false));
     }, []);
 
-    // pull to refresh function
+    // refresh the thread
     const onRefresh = React.useCallback(async () => {
         setRefreshing(true);
         fetch(requestUrl, globalObjects.globalHeader)
@@ -35,6 +35,7 @@ export function Thread({ navigation }) {
             .finally(() => setRefreshing(false));
     }, []);
 
+    // sends a new message to server
     const sendMessageHandler = (inputText: string) => {
         // send new thread to server
         fetch(postUrl, {
@@ -48,11 +49,11 @@ export function Thread({ navigation }) {
     }
 
     return (
-        <SafeAreaView style={styles.container}>
+        <SafeAreaView style={globalStyles.container}>
             {/* Initial message */}
-            <View style={styles.message} >
-                <Text style={styles.threadText}>{thread.text}</Text>
-                <Text style={styles.threadInfo}>{getDateTimeString(new Date(thread.date))}</Text>
+            <View style={styles.initialThreadMessage} >
+                <Text style={styles.initialThreadMessageText}>{thread.text}</Text>
+                <Text style={styles.threadMetaInfo}>{getDateTimeString(new Date(thread.date))}</Text>
             </View>
 
             {/* Chat bubbles */}
@@ -60,9 +61,8 @@ export function Thread({ navigation }) {
                 <FlatList
                     data={thread.responses}
                     extraData={numberOfAnswers}
-                    refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
+                    refreshControl={<RefreshControl refreshing={isRefreshing} onRefresh={onRefresh} />}
                     renderItem={({ item, index }) => <ChatBubble text={item.text} date={item.date} isFirstElement={index === 0} isLastElement={index === thread.responses.length - 1} />}
-                // refreshControl
                 />
             )}
 
@@ -74,18 +74,15 @@ export function Thread({ navigation }) {
 }
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1
-    },
-    message: {
+    initialThreadMessage: {
         padding: 20,
         backgroundColor: "#fff"
     },
-    threadText: {
+    initialThreadMessageText: {
         fontSize: 16,
         marginBottom: 5
     },
-    threadInfo: {
+    threadMetaInfo: {
         color: 'gray',
         fontSize: 15
     }

@@ -7,33 +7,31 @@ import globalObjects from '../globalObjects/globalObjects';
 import { Ionicons } from '@expo/vector-icons';
 import getMonthStringByMonthId from '../globalObjects/getMonthStringByMonthId';
 import { ChatListFactory } from '../globalObjects/chatListFactory';
+import globalStyles from '../styles/globalStyles';
 
 export function ChatOverview({ navigation }) {
     const [isLoading, setLoading] = useState(true);
+    const [isRefreshing, setRefreshing] = useState(false);
     const [threads, setThreads] = useState([]);
-    const [refreshing, setRefreshing] = useState(false);
-    const [modalOpen, setModalOpen] = useState(false);
-    const [threadText, setThreadText] = useState('');
+    const [isModalOpen, setModalOpen] = useState(false);
+    const [newThreadText, setNewThreadText] = useState('');
 
     let requestUrl = globalObjects.serverURL + '/chat';
     let postUrl = globalObjects.serverURL + '/chat/create';
 
+    // initially load the threads
     useEffect(() => {
         fetch(requestUrl, globalObjects.globalHeader)
             .then((response) => response.json())
-            .then(object => object.threadListItems)
-            .then(chatListRaw =>
-                chatListRaw.map(chatListItemRaw => ChatListFactory.fromRaw(chatListItemRaw)))
-            .then(chatList => setThreads(chatList))
+            .then(json => json.threadListItems)
+            .then(threadsRaw =>
+                threadsRaw.map(threadRaw => ChatListFactory.fromRaw(threadRaw)))
+            .then(threads => setThreads(threads))
             .catch(error => console.error(error))
             .finally(() => setLoading(false));
     }, []);
 
-    const pressHandler = (item) => {
-        navigation.navigate('Thread', item);
-    }
-
-    // pull to refresh function
+    // refresh the threads
     const onRefresh = React.useCallback(async () => {
         setRefreshing(true);
         fetch(requestUrl, globalObjects.globalHeader)
@@ -46,9 +44,16 @@ export function ChatOverview({ navigation }) {
             .finally(() => setRefreshing(false));
     }, []);
 
+    // navigates to the thread view
+    const navigateToThread = (item) => {
+        navigation.navigate('Thread', item);
+    }
+
+    // creates new thread
     const pressSendHandler = (text) => {
-        if (threadText.length > 0) {
-            let text: string = threadText;
+        if (newThreadText.length > 0) {
+            let text: string = newThreadText;
+            // remove any whitespace characters at the beginning and the end
             text = text.replace(/^\s+|\s+$/g, '');
 
             // send new thread to server
@@ -56,21 +61,21 @@ export function ChatOverview({ navigation }) {
                 method: 'POST',
                 headers: globalObjects.globalHeader.headers,
                 body: JSON.stringify({
-                    text: threadText
+                    text: newThreadText
                 })
             })
-                .then(() => console.log('response'))
                 .finally(() => onRefresh());
 
-            setThreadText('');
+            // clear thread input field and close modal 
+            setNewThreadText('');
             setModalOpen(false);
         }
     }
 
     return (
-        <SafeAreaView style={{ flex: 1 }}>
+        <SafeAreaView style={globalStyles.flex}>
 
-            <Modal visible={modalOpen} transparent={true} animationType='slide'>
+            <Modal visible={isModalOpen} transparent={true} animationType='slide'>
                 <SafeAreaView style={styles.modalSafeAreaView}>
                     <View style={styles.modalHeader}>
                         <Pressable onPress={() => setModalOpen(false)}>
@@ -80,34 +85,28 @@ export function ChatOverview({ navigation }) {
                         <Pressable onPress={pressSendHandler}>
                             <Text style={styles.modalHeaderText}>Absenden</Text>
                         </Pressable>
-
-
                     </View>
-
 
                     <View style={styles.modalContent}>
                         <TextInput
                             placeholder='Deine Nachricht…'
-                            onChangeText={text => setThreadText(text)}
+                            onChangeText={text => setNewThreadText(text)}
                             multiline
-                            value={threadText}
+                            value={newThreadText}
                             style={styles.inputText}
                             autoFocus={true}
                             textAlignVertical={'top'}
-                        >
-
-                        </TextInput>
+                        />
                     </View>
                 </SafeAreaView>
             </Modal>
 
-            <View style={styles.container}>
+            <View style={globalStyles.container}>
                 {isLoading ? <ActivityIndicator /> :
                     (<FlatList
                         data={threads}
-                        refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
-                        renderItem={({ item, index }) => (<ThreadItem onPress={() => pressHandler(item)} index={index} textSnippet={item.textSnippet} date={item.date} numberOfAnswers={item.numberOfAnswers} />)}
-
+                        refreshControl={<RefreshControl refreshing={isRefreshing} onRefresh={onRefresh} />}
+                        renderItem={({ item, index }) => (<ThreadItem onPress={() => navigateToThread(item)} index={index} textSnippet={item.textSnippet} date={item.date} numberOfAnswers={item.numberOfAnswers} />)}
                     />
                     )}
                 <Pressable
@@ -121,10 +120,6 @@ export function ChatOverview({ navigation }) {
 }
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: colors.jsvScreenBackground
-    },
     addThreadButton: {
         position: 'absolute',
         bottom: 4,

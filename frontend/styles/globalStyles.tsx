@@ -1,7 +1,13 @@
-import React from 'react';
 import colors from './colors';
 
 const globalStyles = {
+    flex: {
+        flex: 1
+    },
+    container: {
+        flex: 1,
+        backgroundColor: colors.jsvScreenBackground
+    },
     screenHeader: {
         fontSize: 30,
         marginLeft: 4

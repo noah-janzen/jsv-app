@@ -1,18 +1,18 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, Text, SafeAreaView, ImageBackground, ScrollView, RefreshControl } from 'react-native';
+import { StyleSheet, Text, SafeAreaView, ImageBackground, ScrollView, RefreshControl } from 'react-native';
 import { getDateString } from '../globalObjects/dateAndTimeFunctions';
 import globalObjects from '../globalObjects/globalObjects';
 import globalStyles from '../styles/globalStyles';
 
 export function NewsArticle({ navigation }) {
-    let id = navigation.getParam('id');
-    let requestUrl = globalObjects.serverURL + '/news/' + id;
-
     const [isLoading, setLoading] = useState(true);
     const [newsArticle, setNewsArticle] = useState([]);
-    const [refreshing, setRefreshing] = useState(false);
+    const [isRefreshing, setRefreshing] = useState(false);
 
-    // initally load news article
+    let newsItemId = navigation.getParam('id');
+    let requestUrl = globalObjects.serverURL + '/news/' + newsItemId;
+
+    // initally load the news article
     useEffect(() => {
         fetch(requestUrl, globalObjects.globalHeader)
             .then(response => response.json())
@@ -21,7 +21,7 @@ export function NewsArticle({ navigation }) {
             .finally(() => setLoading(false));
     }, []);
 
-    // pull to refresh function
+    // refresh the news article
     const onRefresh = React.useCallback(async () => {
         setRefreshing(true);
         fetch(requestUrl, globalObjects.globalHeader)
@@ -32,12 +32,12 @@ export function NewsArticle({ navigation }) {
     }, []);
 
     return (
-        <SafeAreaView>
-            <ScrollView refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
-                <ImageBackground source={{ uri: newsArticle.imgURI }} style={styles.img}></ImageBackground>
-                <Text style={styles.headline}>{newsArticle.title}</Text>
-                <Text style={styles.text}>{newsArticle.fullText}</Text>
-                <Text style={[globalStyles.date, styles.date]}>{getDateString(new Date(newsArticle.date))}</Text>
+        <SafeAreaView style={globalStyles.flex}>
+            <ScrollView refreshControl={<RefreshControl refreshing={isRefreshing} onRefresh={onRefresh} />}>
+                <ImageBackground source={{ uri: newsArticle.imgURI }} style={styles.newsImage}></ImageBackground>
+                <Text style={styles.newsHeadline}>{newsArticle.title}</Text>
+                <Text style={styles.newsText}>{newsArticle.fullText}</Text>
+                <Text style={[globalStyles.date, styles.newsDate]}>{getDateString(new Date(newsArticle.date))}</Text>
             </ScrollView>
         </SafeAreaView>
     )
@@ -46,11 +46,11 @@ export function NewsArticle({ navigation }) {
 const padding = 16;
 
 const styles = StyleSheet.create({
-    img: {
+    newsImage: {
         height: 200,
         marginBottom: 10
     },
-    headline: {
+    newsHeadline: {
         fontSize: 18,
         color: "#1D2026",
         fontWeight: "bold",
@@ -58,13 +58,13 @@ const styles = StyleSheet.create({
         marginLeft: padding,
         marginRight: padding
     },
-    text: {
+    newsText: {
         fontSize: 16,
         color: "#2f3542",
         marginLeft: padding,
         marginRight: padding
     },
-    date: {
+    newsDate: {
         marginLeft: padding,
         marginRight: padding,
         marginBottom: padding

@@ -55,6 +55,7 @@ const styles = StyleSheet.create({
         paddingBottom: 4,
         paddingLeft: 16,
         paddingRight: 16,
+        backgroundColor: '#fff',
         borderTopColor: "#ccc",
         borderTopWidth: 1,
         alignItems: 'flex-end',

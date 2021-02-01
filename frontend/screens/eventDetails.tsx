@@ -1,27 +1,23 @@
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, View, Text, SafeAreaView, ImageBackground, ScrollView, Button, RefreshControl, ActivityIndicator } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
-import LocationText from '../components/locationText';
-import DateAndTimeText from '../components/dateAndTimeText';
-import EventTypeText from '../components/eventTypeText';
-import ParticipationInformation from '../components/participationInformation';
 import { AttendanceLabel } from '../components/attendanceLabel';
 import { EventInfoListPoint } from '../components/eventInfoListPoint';
 import globalObjects from '../globalObjects/globalObjects';
 import { PostAttendanceButton } from '../components/postAttendanceButton';
 import { getDateTimeString } from '../globalObjects/dateAndTimeFunctions';
 import { getData, storeData } from '../globalObjects/storageFunctions';
+import globalStyles from '../styles/globalStyles';
 
 export function EventDetails({ navigation }) {
     const [isLoading, setLoading] = useState(false);
     const [event, setEvent] = useState({ id: "0", title: "", date: "", location: "", attendance_responses: { yes: 0, no: 0, not_sure: 0 }, public: "", description: "", imgURI: "../assets/jsv-img.png" });
-    const [refreshing, setRefreshing] = useState(false);
+    const [isRefreshing, setRefreshing] = useState(false);
     const [attendanceStatus, setAttendanceStatus] = useState('');
 
     let requestUrl = globalObjects.serverURL + '/events/' + navigation.getParam('id');
     let postUrl = globalObjects.serverURL + '/events/' + navigation.getParam('id') + '/attendance';
 
-    // load initially the news events from server
+    // initially load the event
     useEffect(() => {
         fetch(requestUrl, globalObjects.globalHeader)
             .then((response) => response.json())
@@ -29,11 +25,12 @@ export function EventDetails({ navigation }) {
             .catch((error) => console.error(error))
             .finally(() => setLoading(false));
         
+        // get individual attendance status of user from local storage and save in state
         getData(navigation.getParam('id'))
             .then(attendanceStatus => setAttendanceStatus(attendanceStatus));
     }, []);
 
-    // pull to refresh function
+    // refresh the event
     const onRefresh = React.useCallback(async () => {
         setRefreshing(true);
         fetch(requestUrl, globalObjects.globalHeader)
@@ -43,12 +40,14 @@ export function EventDetails({ navigation }) {
             .finally(() => setRefreshing(false));
     }, []);
 
-    // update attendance
+    // update individual attendance status of user
     const updateAttendanceStatusHandler = (newAttendanceStatus: string) => {
+        // no new attendance status: return
         if(attendanceStatus === newAttendanceStatus) {
             return;
         }
 
+        // new attendance status: post new attendance status to server and store new attendance status locally
         let old_attendance = attendanceStatus;
 
         fetch(postUrl, {
@@ -67,20 +66,18 @@ export function EventDetails({ navigation }) {
     }
 
     return (
-        <SafeAreaView style={styles.container}>
+        <SafeAreaView style={globalStyles.flex}>
 
             {isLoading ? <ActivityIndicator /> : (
 
-                <ScrollView refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
-                    <ImageBackground source={{ uri: event.imgURI }} style={styles.img}></ImageBackground>
+                <ScrollView refreshControl={<RefreshControl refreshing={isRefreshing} onRefresh={onRefresh} />}>
+                    <ImageBackground source={{ uri: event.imgURI }} style={styles.eventImage}></ImageBackground>
 
                     <View style={styles.contentContainer}>
-                        <Text style={styles.title}>{event.title}</Text>
-
-
+                        <Text style={styles.eventTitle}>{event.title}</Text>
 
                         <View style={styles.subSection}>
-                            <Text style={styles.subTitle}>KURZINFOS</Text>
+                            <Text style={styles.subTitle}>Kurzinfos</Text>
                             <EventInfoListPoint
                                 symbolName={'calendar'}
                                 text={getDateTimeString(new Date(event.date))} />
@@ -94,20 +91,20 @@ export function EventDetails({ navigation }) {
                         </View>
 
                         <View style={styles.subSection}>
-                            <Text style={styles.subTitle}>TEILNAHME</Text>
+                            <Text style={styles.subTitle}>Teilnahme</Text>
                             <AttendanceLabel attendance_responses={event.attendance_responses} />
 
                         </View>
 
                         <View style={styles.subSection}>
-                            <Text style={styles.subTitle}>BESCHREIBUNG</Text>
-                            <Text style={styles.description}>{event.description}</Text>
+                            <Text style={styles.subTitle}>Beschreibung</Text>
+                            <Text style={styles.eventDescription}>{event.description}</Text>
                         </View>
                     </View>
                 </ScrollView>)}
 
 
-            <View style={styles.buttonContainer}>
+            <View style={styles.attendanceButtonsContainer}>
                 <PostAttendanceButton
                     labelText={'Zusage'}
                     pressHandler={updateAttendanceStatusHandler}
@@ -136,14 +133,11 @@ export function EventDetails({ navigation }) {
 const padding = 16;
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1
-    },
-    img: {
+    eventImage: {
         height: 200,
         marginBottom: 20
     },
-    title: {
+    eventTitle: {
         fontWeight: 'bold',
         fontSize: 24,
         marginBottom: 15
@@ -158,6 +152,7 @@ const styles = StyleSheet.create({
     subTitle: {
         color: '#7a7777',
         fontWeight: 'bold',
+        textTransform: 'uppercase',
         fontSize: 12,
         marginBottom: 6
     },
@@ -169,10 +164,10 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'flex-start'
     },
-    description: {
+    eventDescription: {
         fontSize: 16
     },
-    buttonContainer: {
+    attendanceButtonsContainer: {
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'stretch'

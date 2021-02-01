@@ -5,12 +5,12 @@ import { Ionicons } from '@expo/vector-icons';
 
 
 export function ProfileOverview() {
-    const [modalOpen, setModalOpen] = useState(false);
+    const [isModalOpen, setModalOpen] = useState(false);
     
     return (
         <SafeAreaView style={styles.container}>
 
-            <Modal visible={modalOpen} transparent={true} animationType='slide'>
+            <Modal visible={isModalOpen} transparent={true} animationType='slide'>
                 <View style={styles.modal}>
                     <Pressable onPress={() => { console.log('close button clicked'); setModalOpen(false); }} style={styles.closeIcon}>
                         <Ionicons size={33} name="close-outline" color={'#000'} />
@@ -152,8 +152,6 @@ const styles = StyleSheet.create({
     },
     featureListItemCheckMark: {
         marginRight: 6
-    },
-    center: {
     },
     modal: {
         flex: 1,

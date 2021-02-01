@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, ActivityIndicator, SafeAreaView, SectionList, RefreshControl } from 'react-native';
+import { View, ActivityIndicator, SafeAreaView, SectionList, RefreshControl } from 'react-native';
 import EventItem from '../components/eventItem';
 import SectionListHeader from '../components/sectionListHeader';
-import createDateTimeString from '../globalObjects/createDateTimeString';
 import { EventSectionListFactory } from '../globalObjects/eventSectionListFactory';
 import globalObjects from '../globalObjects/globalObjects';
-import colors from '../styles/colors';
+import globalStyles from '../styles/globalStyles';
 
 export function EventOverview({ navigation }) {
     const [isLoading, setLoading] = useState(false);
@@ -14,23 +13,19 @@ export function EventOverview({ navigation }) {
 
     let requestUrl = globalObjects.serverURL + '/events';
 
-    // initially load the events from server
+    // initially load the event list items
     useEffect(() => {
         fetch(requestUrl, globalObjects.globalHeader)
             .then((response) => response.json())
             .then(json => json.eventListItems)
             .then(eventListItemRawArray => EventSectionListFactory.fromEventListItemRawArray(eventListItemRawArray))
             .then(eventListItemArray => EventSectionListFactory.toSectionList(eventListItemArray))
-            .then(result => setEventsByMonth(result))
+            .then(eventSectionListItems => setEventsByMonth(eventSectionListItems))
             .catch((error) => console.error(error))
             .finally(() => setLoading(false));
     }, []);
 
-    const pressHandler = (item) => {
-        navigation.navigate('EventDetails', item);
-    }
-
-    // pull to refresh function
+    // refresh the event list items
     const onRefresh = React.useCallback(async () => {
         setRefreshing(true);
         fetch(requestUrl, globalObjects.globalHeader)
@@ -38,14 +33,19 @@ export function EventOverview({ navigation }) {
             .then(json => json.eventListItems)
             .then(eventListItemRawArray => EventSectionListFactory.fromEventListItemRawArray(eventListItemRawArray))
             .then(eventListItemArray => EventSectionListFactory.toSectionList(eventListItemArray))
-            .then(result => setEventsByMonth(result))
+            .then(eventSectionListItems => setEventsByMonth(eventSectionListItems))
             .catch((error) => console.error(error))
             .finally(() => setRefreshing(false));
     }, []);
 
+    // navigates to event details view
+    const pressHandler = (item) => {
+        navigation.navigate('EventDetails', item);
+    }
+
     return (
-        <SafeAreaView style={{ flex: 1 }}>
-            <View style={styles.container}>
+        <SafeAreaView style={globalStyles.flex}>
+            <View style={globalStyles.container}>
                 {isLoading ? <ActivityIndicator /> : (
                     <SectionList
                         sections={eventsByMonth}
@@ -57,7 +57,6 @@ export function EventOverview({ navigation }) {
                                 date={item.date}
                                 location={item.location}
                                 attendance_responses={item.attendance_responses}
-                                id={item.id}
                             />
                         }
                         renderSectionHeader={({ section: { title } }) => (<SectionListHeader text={title} />)}
@@ -67,10 +66,3 @@ export function EventOverview({ navigation }) {
         </SafeAreaView>
     );
 }
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: colors.jsvScreenBackground
-    }
-});
