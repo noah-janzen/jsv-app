@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, ActivityIndicator, SafeAreaView, SectionList, RefreshControl, Pressable, Modal, TextInput, FlatList } from 'react-native';
 import ThreadItem from '../components/threadItem';
-import SectionListHeader from '../components/sectionListHeader';
 import colors from '../styles/colors';
 import globalObjects from '../globalObjects/globalObjects';
 import { Ionicons } from '@expo/vector-icons';
-import getMonthStringByMonthId from '../globalObjects/getMonthStringByMonthId';
 import { ChatListFactory } from '../globalObjects/chatListFactory';
 import globalStyles from '../styles/globalStyles';
 
@@ -75,6 +73,7 @@ export function ChatOverview({ navigation }) {
     return (
         <SafeAreaView style={globalStyles.flex}>
 
+            { /* Modal to create a new thread, pops up when user clicks on + icon. */ }
             <Modal visible={isModalOpen} transparent={true} animationType='slide'>
                 <SafeAreaView style={styles.modalSafeAreaView}>
                     <View style={styles.modalHeader}>
@@ -101,6 +100,7 @@ export function ChatOverview({ navigation }) {
                 </SafeAreaView>
             </Modal>
 
+            { /* List with threads, sorted descending by date */ }
             <View style={globalStyles.container}>
                 {isLoading ? <ActivityIndicator /> :
                     (<FlatList
@@ -109,6 +109,8 @@ export function ChatOverview({ navigation }) {
                         renderItem={({ item, index }) => (<ThreadItem onPress={() => navigateToThread(item)} index={index} textSnippet={item.textSnippet} date={item.date} numberOfAnswers={item.numberOfAnswers} />)}
                     />
                     )}
+
+                { /* Button to create a new thread, triggers modal */ }
                 <Pressable
                     style={styles.addThreadButton}
                     onPress={() => setModalOpen(true)}>

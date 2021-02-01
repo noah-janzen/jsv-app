@@ -10,6 +10,7 @@ export function ProfileOverview() {
     return (
         <SafeAreaView style={styles.container}>
 
+            { /* Modal that displays the imprint */ }
             <Modal visible={isModalOpen} transparent={true} animationType='slide'>
                 <View style={styles.modal}>
                     <Pressable onPress={() => { console.log('close button clicked'); setModalOpen(false); }} style={styles.closeIcon}>
@@ -24,8 +25,8 @@ export function ProfileOverview() {
                 </View>
             </Modal>
 
+            { /* Feature section of JSV app */ }
             <View style={styles.features}>
-
                 <View>
                     <Image  source={require('../assets/images/jsvAppLogo.png')}
                             style={[styles.jsvAppLogo, styles.mb12]} />
@@ -45,10 +46,9 @@ export function ProfileOverview() {
                         </View>
                     </View>
                 </View>
-
-                
             </View>
 
+            { /* Login section */ }
             <View style={styles.loginMask}>
                 <Text style={[styles.header, styles.mb24]}>Login</Text>
 

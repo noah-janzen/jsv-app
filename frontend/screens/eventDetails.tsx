@@ -70,6 +70,7 @@ export function EventDetails({ navigation }) {
 
             {isLoading ? <ActivityIndicator /> : (
 
+                /* Information about the event */
                 <ScrollView refreshControl={<RefreshControl refreshing={isRefreshing} onRefresh={onRefresh} />}>
                     <ImageBackground source={{ uri: event.imgURI }} style={styles.eventImage}></ImageBackground>
 
@@ -87,7 +88,6 @@ export function EventDetails({ navigation }) {
                             <EventInfoListPoint
                                 symbolName={'eye'}
                                 text={event.public} />
-
                         </View>
 
                         <View style={styles.subSection}>
@@ -103,7 +103,7 @@ export function EventDetails({ navigation }) {
                     </View>
                 </ScrollView>)}
 
-
+            { /* Buttons to answer individual attendance status at the bottom of the screen */ }
             <View style={styles.attendanceButtonsContainer}>
                 <PostAttendanceButton
                     labelText={'Zusage'}
