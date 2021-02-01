@@ -8,6 +8,7 @@ import { Ionicons } from '@expo/vector-icons';
 import React from 'react';
 import colors from '../styles/colors';
 
+// Define tabs for root tab navigator.
 const tabs = {
     Newsfeed: {
         screen: NewsFeedStack,
@@ -39,6 +40,7 @@ const tabs = {
     }
 }
 
+// Construct root tab navigator based on defined screens.
 const RootTabNavigator = createBottomTabNavigator(tabs, {
     tabBarOptions: {
         activeTintColor: colors.jsvTabNavigatorActiveTab,

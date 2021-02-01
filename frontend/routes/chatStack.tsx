@@ -4,6 +4,7 @@ import { Thread } from '../screens/thread';
 import colors from '../styles/colors';
 import globalStyles from '../styles/globalStyles';
 
+// Define stack navigator screens for chat.
 const screens = {
     Chat: {
         screen: ChatOverview,
@@ -19,6 +20,7 @@ const screens = {
     }
 }
 
+// Construct stack navigator for chat based on defined screens.
 const ChatStack = createStackNavigator(screens, {
     defaultNavigationOptions: {
         headerTitleStyle: globalStyles.screenHeader,

@@ -4,6 +4,7 @@ import { EventOverview } from '../screens/eventOverview';
 import colors from '../styles/colors';
 import globalStyles from '../styles/globalStyles';
 
+// Define stack navigator screens for event.
 const screens = {
     Events: {
         screen: EventOverview,
@@ -19,6 +20,7 @@ const screens = {
     }
 }
 
+// Construct stack navigator for events based on defined screens.
 const EventStack = createStackNavigator(screens, {
     defaultNavigationOptions: {
         headerTitleStyle: globalStyles.screenHeader,

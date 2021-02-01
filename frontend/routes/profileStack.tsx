@@ -1,24 +1,19 @@
 import { createStackNavigator } from 'react-navigation-stack';
 import { ProfileOverview } from '../screens/profileOverview';
-import { Imprint } from '../screens/imprint';
 import colors from '../styles/colors';
 import globalStyles from '../styles/globalStyles';
 
+// Define stack navigator screens for profile.
 const screens = {
     Profile: {
         screen: ProfileOverview,
         navigationOptions: {
             title: 'Profil'
         }
-    },
-    Imprint: {
-        screen: Imprint,
-        navigationOptions: {
-            title: 'Impressum'
-        }
     }
 }
 
+// Construct stack navigator for profile based on defined screens.
 const ProfileStack = createStackNavigator(screens, {
     defaultNavigationOptions: {
         headerTitleStyle: globalStyles.screenHeader,
