@@ -3,22 +3,27 @@ import { TextInput, View, StyleSheet, Pressable } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import colors from '../styles/colors';
 
-export default function ResponseInput({handler}) {
-
+export default function ResponseInput({postResponseHandler}) {
     const [textInput, setTextInput] = useState('');
     const [sendDisabled, setSendDisabled] = useState(true);
 
-    const pressHandler = () => {
+    const sendResponseHandler = () => {
         if (textInput.length > 0) {
             let text = textInput;
+
+            // remove any whitespace characters at the beginning and the end
             text = text.replace(/^\s+|\s+$/g, '');
-            console.log('Text: ' + text);
-            handler(text);
+            
+            // transfer text to the handler that stores response on the server
+            postResponseHandler(text);
+
+            // clear text input and disable send button
             setTextInput('');
             setSendDisabled(true);
         }
     };
 
+    // enables/disables the send button
     const checkTextLength = (text) => {
         setSendDisabled(text.length === 0);
     }
@@ -38,7 +43,7 @@ export default function ResponseInput({handler}) {
                 multiline
             />
 
-            <Pressable onPress={pressHandler} style={{ marginBottom: 10}} disabled={sendDisabled}>
+            <Pressable onPress={sendResponseHandler} style={{ marginBottom: 10}} disabled={sendDisabled}>
                 <Ionicons size={20} name={'send'} color={sendDisabled ? '#999' : colors.jsvMainGreen } />
             </Pressable>
 

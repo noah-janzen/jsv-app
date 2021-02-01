@@ -1,7 +1,6 @@
 import React from 'react';
 import { Text, View, StyleSheet } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import createDateTimeString from '../globalObjects/createDateTimeString';
 
 export function EventInfoListPoint({ symbolName, text}) {
     return (

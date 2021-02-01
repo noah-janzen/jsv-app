@@ -1,22 +1,21 @@
 import React from 'react';
 import { StyleSheet, Text, View, ImageBackground, Pressable } from 'react-native';
-import ParticipationInformation from './participationInformation';
 import globalStyles from '../styles/globalStyles';
-import colors from '../styles/colors';
 import { AttendanceLabel } from './attendanceLabel';
 import { getTimeString, getMonthAbbreviation } from '../globalObjects/dateAndTimeFunctions';
 
 const EventItem = ({ title, date, location, attendance_responses, onPress }) => {
     let parsedEventDate = new Date(date);
     let day = parsedEventDate.getDate();
-    let monthAbbreviation = getMonthAbbreviation(parsedEventDate.getMonth());
 
+    // get month abbreviation as string
+    let monthAbbreviation = getMonthAbbreviation(parsedEventDate.getMonth());
 
     return (
         <Pressable onPress={onPress}>
             <View style={[globalStyles.item, styles.eventItem]}>
 
-                <View style={{ flexDirection: 'row', justifyContent: 'flex-start' }}>
+                <View style={styles.flexRow}>
 
                     <View style={styles.calendarDate}>
                         <Text style={styles.month} numberOfLines={1}>{monthAbbreviation}</Text>
@@ -42,7 +41,10 @@ const styles = StyleSheet.create({
         paddingLeft: 0,
         paddingRight: 0
     },
-
+    flexRow: {
+        flexDirection: 'row',
+        justifyContent: 'flex-start' 
+    },
     calendarDate: {
         width: 70,
         flexDirection: 'column',
