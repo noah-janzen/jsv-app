@@ -1,9 +1,10 @@
 import { EventListItem } from "../models/eventListItem";
-import { EventListItemRaw } from "../models/eventListRaw";
+import { EventListItemRaw } from "../models/eventListItemRaw";
 import { EventSectionListSection, EventSectionListSectionItem } from "../models/eventSectionList";
 import { getMonthString } from "./dateAndTimeFunctions";
 
 export class EventSectionListFactory {
+    // transforms _raw_ event list item (which comes from the server) to a list item
     static fromEventListItemRaw(eventListItemRaw: EventListItemRaw): EventListItem {
         return {
             ...eventListItemRaw,
@@ -11,10 +12,14 @@ export class EventSectionListFactory {
         };
     }
 
+    // transforms _raw_ event list item _arraw_ to list item _arraw_
     static fromEventListItemRawArray(eventListItemRawArray: EventListItemRaw[]): EventListItem[] {
         return eventListItemRawArray.map(eventListItemRaw => this.fromEventListItemRaw(eventListItemRaw))
     }
 
+    // transforms event list item array to a section list in correct format for react native section list
+    // array of objects with props 'title' and 'data'
+    // Assigns a specific event list item to a section depending on month and year of the event.
     static toSectionList(eventListItems: EventListItem[]): EventSectionListSection[] {
         let eventSectionList: EventSectionListSection[] = [];
 
@@ -28,7 +33,7 @@ export class EventSectionListFactory {
                 monthString += (', ' + item.date.getFullYear());
             }
 
-            // if month section already exists, push empty month element
+            // if month section does not exist yet, create month section and push empty month element in it
             if (eventSectionList.filter(e => e.title === monthString).length === 0) {
                 eventSectionList.push(
                     {
@@ -38,7 +43,7 @@ export class EventSectionListFactory {
                 )
             }
 
-            // push eventItem to corresponding section
+            // push eventItem to corresponding month section
             eventSectionList.find(section => section.title === monthString)?.data.push(item);
 
         })

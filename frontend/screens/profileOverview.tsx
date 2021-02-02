@@ -13,7 +13,7 @@ export function ProfileOverview() {
             { /* Modal that displays the imprint */ }
             <Modal visible={isModalOpen} transparent={true} animationType='slide'>
                 <View style={styles.modal}>
-                    <Pressable onPress={() => { console.log('close button clicked'); setModalOpen(false); }} style={styles.closeIcon}>
+                    <Pressable onPress={() => setModalOpen(false) } style={styles.closeIcon}>
                         <Ionicons size={33} name="close-outline" color={'#000'} />
                     </Pressable>
                     <View style={styles.content}>

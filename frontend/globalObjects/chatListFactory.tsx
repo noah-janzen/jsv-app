@@ -2,12 +2,13 @@ import { ChatListItemRaw } from '../models/chatListItemRaw';
 import { ChatListItem } from '../models/chatListItem';
 
 export class ChatListFactory {
-    static fromRaw(cl: ChatListItemRaw) {
+    // transforms chat list item raw (which comes from the server) to a chat list item used in the app
+    static fromRaw(item: ChatListItemRaw): ChatListItem {
         return {
-            ...cl,
-            date: new Date(cl.date),
-            textSnippet: cl.text_snippet,
-            numberOfAnswers: cl.number_of_answers
+            id: item.id,
+            textSnippet: item.text_snippet,
+            date: new Date(item.date),
+            numberOfAnswers: item.number_of_answers
         };
     }
 }

@@ -1,5 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
+// store data locally
 const storeData = async (key: string, value: any) => {
     try {
         const jsonValue = JSON.stringify(value)
@@ -9,6 +10,7 @@ const storeData = async (key: string, value: any) => {
     }
 }
 
+// get data from local storage
 const getData = async (key: string) => {
     try {
         const jsonValue = await AsyncStorage.getItem(key)

@@ -67,7 +67,7 @@ export function Thread({ navigation }) {
             )}
 
             {/* Input field */}
-            <ResponseInput handler={sendMessageHandler} />
+            <ResponseInput postResponseHandler={sendMessageHandler} />
 
         </SafeAreaView>
     )
