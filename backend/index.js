@@ -10,7 +10,7 @@ import { createReply, deleteReply } from "./database/functions/replyFunctions.js
 const port = 3000;
 
 // Connection string to connect to database.
-const connectionString = "mongodb+srv://<USERNAME>:<PASSWORD>@mycluster.zrta6.mongodb.net/<DATABASE-NAME>?retryWrites=true&w=majority";
+// const connectionString = "";
 
 // Connect to the database.
 Mongoose.connect(connectionString, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false });
